@@ -2,7 +2,7 @@
 
 * Everything is on [the HWSec website](http://soc.eurecom.fr/HWSec/).
 * Grading: 25% labs, 75% all-documents-allowed exam
-* Notes progression: stopped at powerpoint 2/4 slide 22. DES algorithm description to finish.
+* Notes progression: stopped at powerpoint 3/4 slide 0.
 
 ## Introduction
 
@@ -144,3 +144,20 @@ This implementation of exponentiation is prone to timing attacks, because calcul
 
 #### Framework of timing attacks
 
+1. Ensure that processing time is data-dependent.
+2. Acquisition phase: with a same secret, build a [{input,time},...] database
+3. Analysis phase:
+	1. Attacker tries to retrieve parts of the secret
+	2. Attacker builds a timing model that depends on this part of the secret
+	3. Attacker estimates correlation between `TimingModel(input,part)` and `ObservedTime(input)`
+	4. The `part` that gives the highest correlation is the most likely to be a good guess in the seccret
+
+### Power attacks
+
+Based on the assumption, true in the CMOS framework, that power consumption and cell output transition are correlated. The power trace of a naive DES implementation can, for example leave a signal that is correlated with:
+
+* Hamming distance of register transitions
+* Hamming weights
+* Clock spikes
+
+The power attack framework is the same as for timing attacks, but with power models instead of timing models.
