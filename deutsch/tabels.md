@@ -30,3 +30,13 @@
 | ein       | ein       | einem | eines   |
 | /         | /         | /     | /       |
 
+# Irregular comparatives and superlatives
+
+| Adjective | Comparative | Superlative |
+| --------- | ----------- | ----------- |
+| gut       | besser      | |
+| hoch      | höher       | |
+| viel      | mehr        | |
+| gern      | lieber      | |
+
+<!-- to finish -->
