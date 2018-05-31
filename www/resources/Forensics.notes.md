@@ -8,6 +8,8 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | static analysis A | done |
 | static analysis B | done |
 | reverse engineering tools | ignored |
+| dynamic analysis | in progress |
+| (more slides to come) | --- |
 
 ## Binary and malware analysis
 

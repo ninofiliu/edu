@@ -2,7 +2,13 @@
 
 * Everything is on [the HWSec website](http://soc.eurecom.fr/HWSec/).
 * Grading: 25% labs, 75% all-documents-allowed exam
-* Notes progression: stopped at powerpoint 3/4 slide 0.
+
+| Slides file | completion status |
+| --- | --- |
+| introduction | done |
+| side-channel attacks | done |
+| Fault attacks | to do |
+| Probing attacks | to do |
 
 ## Introduction
 
@@ -166,9 +172,9 @@ The power attack framework is the same as for timing attacks, but with power mod
 
 
 
-# Labs
+<!--
 
-## Notes on the power attack on DES
+--- Notes on the power attack on DES ---
 
 known ciphertext attack
 
@@ -189,3 +195,4 @@ The power model is based on the number of transitions: more transitions in the L
 The PCC have to be computed between the # of transitions and the power transition vector. weird, right? actually we do a PCC between the # of transition and each of the scalar values of the power transition vector (PCC trace). A good guess gives a PCC trace that gives a high spike that is located at the time of the transition.
 
 Note that in the lab, L16R16 are stored elsewhere, so the attack must be on L14R14->L15R15.
+-->

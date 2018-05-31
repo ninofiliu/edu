@@ -117,7 +117,7 @@ foreach (scandir("resources") as $name) {
           $("#main").append(
             $("<a>")
             .html(r.desc+" &raquo;")
-            .attr("href",r.src.indexOf(".notes.")>0 ? "view-course?resource="+r.src : "view-lab?resource="+r.src)
+            .attr("href",r.src.indexOf(".notes.")>0 ? "view-notes?resource=resources%2F"+r.src : "view-lab?resource=resources%2F"+r.src)
           );
         });
       }
