@@ -170,6 +170,21 @@ The power attack framework is the same as for timing attacks, but with power mod
 
 
 
+## Fault attacks
+
+Hardware is subject to faults that can sometimes be exploited. First described in 1978, but papers on exploitation in 1996. Three types of fault attacks:
+
+* passive: exploit accidental faults
+* semi-active: no package removal, but faults are induced
+* active: package removal + induced faults
+
+Several ways to induce flaws:
+
+* power supply glitch: can cause the processor to skip or misinterpret instructions
+* clock glitch: can cause errors in RAM read or instruction execution
+* temperature: can cause random bit flips, can cause write and not read, can cause read and not write
+
+*(unfinished notes - stopped at [slide #53](http://soc.eurecom.fr/HWSec/lectures/faults/main.pdf#page=53))*
 
 
 <!--
