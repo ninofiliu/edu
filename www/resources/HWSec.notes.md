@@ -161,3 +161,31 @@ Based on the assumption, true in the CMOS framework, that power consumption and 
 * Clock spikes
 
 The power attack framework is the same as for timing attacks, but with power models instead of timing models.
+
+
+
+
+
+# Labs
+
+## Notes on the power attack on DES
+
+known ciphertext attack
+
+[paper by Kocher](https://42xtjqm0qj0382ac91ye9exr-wpengine.netdna-ssl.com/wp-content/uploads/2015/08/DPA.pdf)
+
+1. CT known
+2. Back-compute with IP: L16:R16
+3. Make a power model
+4. Correlate a guess on the key and the power values
+	1. Make assumptions on the key
+	2. Put the model, the voltage value and the key together
+	3. Take the best key
+5. Thanks to the key, back-compute L15:R15
+6. Reiterate untill L1:R1
+
+The power model is based on the number of transitions: more transitions in the LR register = more power.
+
+The PCC have to be computed between the # of transitions and the power transition vector. weird, right? actually we do a PCC between the # of transition and each of the scalar values of the power transition vector (PCC trace). A good guess gives a PCC trace that gives a high spike that is located at the time of the transition.
+
+Note that in the lab, L16R16 are stored elsewhere, so the attack must be on L14R14->L15R15.

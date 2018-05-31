@@ -634,4 +634,78 @@ To go further, sentiment analysis have to be performed.
 
 Can video be divided into meaningful segments? How can these fragments be described? How to evaluate their relevance? How to find related documents that complete the video?
 
-That is exactly what TED does.
+That is exactly what TED does, cf [their website](https://www.ted.com/talks/ken_robinson_says_schools_kill_creativity/reading-list).
+
+## Web integration
+
+### SKOS
+
+Simple knowledge organization system
+
+Application of RDFS/OWL to make an ontology of concepts.
+
+Concepts are labelled (preferred, alternative, hidden) and linked (related, broader, narrower). Notes exists for documentation purpose (scopeNote, definition, example, historyNote, editoralNote, changeNote).
+
+```
+inria:CorporateSemanticWeb
+    rdf:type skos:Concept;
+    skos:prefLabel "Corporate semantic web"@en;
+    skos:altLabel "CSW"@en;
+    skos:broader w3c:SematicWeb;
+    skos:scopeNote "only within knowledge management community".
+```
+
+Schemes are compiled sets of concepts. Concepts from difference schemes are linked (exactMatch, relatedMatch, broadMatch, narrowMatch).
+
+```
+inria:CorporateSemanticWeb
+    skos:inScheme inria:ResearchTopics.
+```
+
+### RDB2RDF
+
+Converts a database into RDF triples. It either does it on the storage or acts as a in-memory wrapper above the RDB.
+
+Other tools exists to do so, like R2RML, RML, Ultrawrap, Morph...
+
+OpenRefine, previously known as Google Refine, helps cleans the data and has got tools to make it RDF-compatible. Not only can you output your DB as RDF, you can also for example make a whole column match the Wikipedia spelling of the content.
+
+### Data reconcilitation
+
+Have different names according to the community. Goal: generate relevant owl:sameAs (and related) links based on similarity evaluation. Once normalization has been done...
+
+```
+country Germany -> country germany
+country GERMANY -> country germany
+foaf:givenName "Bob", foaf:surname "Dylan" -> foaf:name "Bob Dylan"
+```
+
+...similarity can be computed, but it's often quite hard of a problem to produce relevant matching (ie: a lot of true positive/negative, a few false positive/negative). Here's two simple string matching techniques nevertheless:
+
+* **Levenshtein measure**: aka minimum edit measure. edit = insert/delete/replace.
+* **Token-based measures**: token = word, enables to bring "Mr John Doe" and "Doe, John" closer. Jaccard coefficient: `J(a,b) = len(a inter b) / len(a union b)`.
+
+### Geodata
+
+Localisation of events and places is relevant when it comes to posting relevant informations on the web3.*what are all the bridges in a 2km radius around the Eiffel tower?*. Properties like `prop-fr:ouestOf, prop-fr:superficie, prop-fr:altMaxi` thus exists.
+
+31 datasets are geo-oriented and they account for 1 in 5 triples. They are based on geometry (top-level geometry type) and geographic features (representation of a real-world phenomenon).
+
+### Social networks
+
+Social medias are isolated communities of users and their data. We need ways to redesign networks so as to ease the data transfer from one community to another, eg: *move all my wordpress posts and comments to squarespace*.
+
+The goal is to have a single identity represented by RDF data that have different views according to the social network. To get there, it is required to use agreed-upon semantics to describe content. That was the goal of [FOAF](https://en.wikipedia.org/wiki/FOAF_(ontology), an ontology describing persons, their activities and their relations to other. People can create their own FOAF document.
+
+SIOC is an ontology linking FOAF and SKOS. It was created because *people* (foaf) produce *content* (skos) and neither skos nor foaf covers the whole relevance of this affirmation. Twitter, Facebook, Wordpress and FLickr already produce ready-to-consume SIOC data.
+
+Facebook is however pushing more the [open graph protocol](http://ogp.me/). The homepage explains the project pretty well and the schema is available [here (turtle schema)](http://ogp.me/ns/ogp.me.ttl). Basically the goal is to be able to turn any webpage into a rich social object, simply thanks to `<meta property="og:XXX" content="YYY">` in the `<head>` of HTML files. The facebook graph api (to access it, register and replace the www by graph in a facebook URL) is a REST API that eases the data access from machines to facebook.
+
+### Vocabulary linkage
+
+LOV is a service that puts together 420 vocabularies so as to fuel the reuse of vocabularies.
+
+It is also working on a proposal of ranking its vocabulary:
+
+* terms are ranked according to their IC (information content): `IC(term) = -log2(phi(term)/maxPhi)`
+* vocabularies are ranked according to their PIC (partitionned information content): `PIC(vocab) = weight(vocab) * sum([IC(t) for t in vocab.terms])`. The weight is defined as the number of URIs 
