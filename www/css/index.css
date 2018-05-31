@@ -1,0 +1,91 @@
+
+body {
+    font-family: "Oswald", sans-serif;
+    background-color: #025;
+    color: white;
+    width: 95%;
+    max-width: 800px;
+    display: block;
+    margin: auto;
+}
+a {
+    color: white;
+}
+a:hover {
+    color: red;
+}
+
+header {
+    background-color: black;
+    padding: 1em;
+    font-style: italic;
+}
+header h1 {
+    font-size: 4em;
+    margin: 0;
+}
+header p {
+    font-size: 2em;
+    margin: 0;
+}
+.subheader {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    font-size: 1.2em;
+}
+.subheader.left {
+    width: 45%;
+    margin-right: 5%;
+}
+.subheader p:nth-child(1){
+    font-size: 2em;
+    margin: 0.2em 0;
+    font-weight: bold;
+}
+.subheader.left li {
+    font-size: 20px;
+    margin: 0;
+}
+.subheader p {
+    text-align: justify;
+}
+.subheader.right p:nth-child(3) a{
+    color: #37b;
+}
+.subheader.right p:nth-child(3) a:hover{
+    color: red;
+}
+#menu-root p {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+#main {
+    font-size: 1.2em;
+}
+#main h1 {
+    background-color: white;
+    color: black;
+    font-size: 3em;
+    padding: 0.5em;
+}
+#main h2 {
+    font-size: 2em;
+    margin: 0;
+    color: #37b;
+}
+#main p {
+    margin: 0;
+}
+#main a {
+    margin-right: 0.7em;
+}
+
+footer {
+    background-color: black;
+    text-align: center;
+    font-size: 1.3em;
+    padding: 0.5em;
+    margin-top: 2em;
+}

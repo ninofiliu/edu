@@ -1,16 +1,76 @@
 [
 	{
-		"school": "eurecom",
-		"course": "Hardware security",
-		"type": "notes",
-		"source": "resources/HWSec.notes.md",
-		"name": "Notes"
+		"school": "Eurecom spring 2018",
+		"name": "Forensics",
+		"desc": "Different approaches to analyse and detect malware and to deal with compromised machines.",
+		"resources":[
+			{
+				"desc": "Course",
+				"src": "Forensics.notes.md"
+			}
+		]
 	},
 	{
-		"school": "eurecom",
-		"course": "Imaging security",
-		"type": "lab",
-		"source": "resources/ImSecu.lab.watermarking.md",
-		"name": "Lab on watermarking"
+		"school": "Eurecom spring 2018",
+		"name": "Hardware security",
+		"desc": "Securing and attacking the low-level implementation of secure algorithms",
+		"resources":[
+			{
+				"desc": "Course",
+				"src": "HWSec.notes.md"
+			}
+		]
+	},
+	{
+		"school": "Eurecom spring 2018",
+		"name": "Imaging security",
+		"desc": "Watermarking, steganography, image forensics, biometrics, and video surveillance",
+		"resources":[
+			{
+				"desc": "Course",
+				"src": "ImSecu.notes.md"
+			},
+			{
+				"desc": "Lab on watermaking",
+				"src": "ImSecu.lab.watermaking.md"
+			}
+		]
+	},
+	{
+		"school": "Eurecom spring 2018",
+		"name": "Network softwerization",
+		"desc": "Making networks more flexible thanks to NFV, SDN and cloud computing",
+		"resources":[
+			{
+				"desc": "Lab on pyretic",
+				"src": "NetSoft.lab.pyretic.md"
+			},
+			{
+				"desc": "Lab on pyresonance",
+				"src": "NetSoft.lab.pyresonance.md"
+			}
+		]
+	},
+	{
+		"school": "Eurecom spring 2018",
+		"name": "Security applications",
+		"desc": "Applications of secure communication mechanisms in the area of computer networks and distributed systems",
+		"resources":[
+			{
+				"desc": "Course",
+				"src": "SecAppli.notes.md"
+			}
+		]
+	},
+	{
+		"school": "Eurecom spring 2018",
+		"name": "Semantic web",
+		"desc": "Making the data on the web more accessible to global automatic processing",
+		"resources":[
+			{
+				"desc": "Course",
+				"src": "WebSem.notes.md"
+			}
+		]
 	}
 ]
