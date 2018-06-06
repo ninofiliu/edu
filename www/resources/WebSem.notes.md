@@ -8,7 +8,7 @@ Notes by Nino Filiu; based on the "WebSem" course by Raphael Troncy
 | [lecture 2](http://www.eurecom.fr/~troncy/teaching/websem2018/Lecture_2-12-03-2018.pdf) | done |
 | [lecture 4](http://www.eurecom.fr/~troncy/teaching/websem2018/Lecture_4-26-03-2018.pdf) | done |
 | [lecture 5](http://www.eurecom.fr/~troncy/teaching/websem2018/Lecture_5-14-05-2018.pdf) | done |
-| [lecture 6](http://www.eurecom.fr/~troncy/teaching/websem2018/Lecture_6-28-05-2018.pdf) | to do |
+| [lecture 6](http://www.eurecom.fr/~troncy/teaching/websem2018/Lecture_6-28-05-2018.pdf) | done |
 
 ## Enhancing the web
 
@@ -595,7 +595,7 @@ There exists many endpoints for SPARQL queries on the web, see [the lab on SPARQ
 
 ## Information extraction
 
-## Language
+### Language
 
 Goal: recognize and link the name of an entity. For example, from the entity "Armstrong", deduce its knowledge : `is a -> human, works for -> NASA` etc. Lots of difficulties:
 
@@ -707,5 +707,11 @@ LOV is a service that puts together 420 vocabularies so as to fuel the reuse of 
 
 It is also working on a proposal of ranking its vocabulary:
 
-* terms are ranked according to their IC (information content): `IC(term) = -log2(phi(term)/maxPhi)`
-* vocabularies are ranked according to their PIC (partitionned information content): `PIC(vocab) = weight(vocab) * sum([IC(t) for t in vocab.terms])`. The weight is defined as the number of URIs 
+* terms are ranked according to their IC (information content): `IC(term) = -log2(phi(term)/maxPhi)`. Top 5 terms: `skos:example, dce:contributor, skos:scopeNote, dcterms:source, mads:code`.
+* vocabularies are ranked according to their PIC (partitionned information content): `PIC(vocab) = weight(vocab) * sum([IC(t) for t in vocab.terms])`. The weight is defined as the number of links that involve terms of this vocabulary. Top 5 vocabularies: `dcterms, schema, gr, foaf, bibo`.
+
+### Kowledge graph embedding
+
+How similar is *pizza* to *pasta*? *King* is to *queen* what *man* is to *\_\_\_*? Such simple questions for a human are actually quite complicated for computers but graph calculations on linked data can help with that. Moreover, the applications of the answers are many.
+
+Let's use Netflix, which collects infos about its users and their film feedbacks so as to recommend films to its users. By playing on the graph structure (eg: tightly connected entities are more related) and semantics (eg: `mainActor` is a more important property than `assistantPhotographer`), some algorithms can predict how well some films matches a user. An approach to do so is to map the vertices of a graph to points in space and calculating the distance between them.

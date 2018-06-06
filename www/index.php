@@ -67,7 +67,7 @@ foreach (scandir("resources") as $name) {
     
     <footer>
         <p><a href="https://github.com/ninofiliu">GitHub</a> - <a href="https://www.linkedin.com/in/nino-filiu/">LinkedIn</a> - <a href="https://stackoverflow.com/users/8186898/nino-filiu">Stack Overflow</a> - <a href="https://www.facebook.com/nino.filiu">Facebook</a> - <a href="https://www.instagram.com/ssttaacckkyy/">Instagram</a></p>
-        <p><i>Last update: May, 31st 1:17PM</i></p>
+        <p><i>Last update: June, 5th 9:30PM</i></p>
     </footer>
     
 </body>

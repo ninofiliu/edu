@@ -105,7 +105,7 @@ Superman ist stärker als ich
 
 Some comparatives are irregular, see the "Irregular comparatives and superlatives" table.
 
-### "less than"
+#### "less than"
 
 * "nicht so" + adjective + "wie"
 * "weniger" + adjective + "als"
@@ -115,7 +115,7 @@ Mein Sprung ist nicht so hoch wie deiner
 Ich bin weniger stark als Superman
 ```
 
-### "as much as"
+#### "as much as"
 
 "so" + adj + "wie"
 
@@ -125,5 +125,5 @@ The adjective is invariable
 Felix ist so dumm wie Lukas
 ```
 
-### "the most"
+#### "the most"
 
