@@ -127,6 +127,8 @@ A lot of things can be infered from this additional knowledge, here are some ass
 
 #### Consider the domain University domain where the concepts are: People, Organization, Publication, Professor, Student and Course and where the relationships are: author, worksFor and teach. Draw the graph that would represent this model in OWL. Provide the axioms corresponding to this model using the N3 syntax. (2013, 2014, 2015, 2016)
 
+*Alternative formulation: mentions of the "giveECTS" property. Asks to show the hierarchy and the domain-range of properties.*
+
 
 JSON representation of the graph:
 
@@ -191,14 +193,14 @@ s:Student
 ```
 
 
-#### What are the algebraic properties available in OWL? (2013, 2014, 2015)
+#### What are the algebraic properties available in OWL? (2013, 2014, 2015, 2016)
 
 Class constructors: intersectionOf, unionOf, complementOf, oneOf, allValuesFrom, someValuesFrom, maxCardinality, minCardinality.
 
 Axioms: subClassOf, equivalentClass, disjointWith, sameIndividualAs, differentFrom, subPropertyOf, equivalentPrperty, inverseOf, transitiveProperty, functionalProperty, inverseFunctionalProperty.
 
 
-#### Give the name of two popular ontology editors. (2013, 2014, 2015)
+#### Give the name of two popular ontology editors. (2013, 2014, 2015, 2016)
 
 Protégé, DOE (differential ontology editor), OilEd, WebOde, OntoEdit, Swoop, NeOn toolkit.
 
@@ -211,7 +213,7 @@ Protégé, DOE (differential ontology editor), OilEd, WebOde, OntoEdit, Swoop, N
 * DAML+OIL: layered onto XML and RDF
 
 
-#### Give the name of 3 popular semantic web vocabularies. (2013, 2014, 2015)
+#### Give the name of 3 popular semantic web vocabularies. (2013, 2014, 2015, 2016)
 
 The top 5 according to PIC lov ranking:
 
@@ -222,7 +224,7 @@ The top 5 according to PIC lov ranking:
 5. bibo: bibliographic ontology
 
 
-#### Consider that in the University domain described above, EURECOM is an instance of an Organization, that WebSem is an instance of a Course, and that RaphaelTroncy is an instance of Professor. Write in N3 those instances. (2013, 2015)
+#### Consider that in the University domain described above, EURECOM is an instance of an Organization, that WebSem is an instance of a Course, and that RaphaelTroncy is an instance of Professor. Write in N3 those instances. (2013, 2015, 2016)
 
 ```n3
 @prefix s: <http://the-university-domain.org/>.
@@ -247,7 +249,7 @@ WHERE {
 ```
 
 
-#### What is the LOV project? Explain its main goal. (2014, 2015)
+#### What is the LOV project? Explain its main goal. (2014, 2015, 2016)
 
 LOV = linked open vocabulary.
 
@@ -261,7 +263,9 @@ It also provides relevance insights thanks to a ranking of terms (using IC: info
 These are URIs designed for linked data. These URIs represent the data that can be retrieved from the resource they locate, ie they don't represent the string of characters that they are.
 
 
-#### Explain what are the NER and the NEL tasks in Information Extraction. (2015)
+#### Explain what are the NER and the NEL tasks in Information Extraction. (2015, 2016)
+
+*Alternative formulation: same + give an example using a sentence*
 
 NER: Named entity recognition. Subtask of information extraction that seeks to locate and classify named entities in text into pre-defined categories such as the names of persons, organizations, locations, expressions of times, quantities, monetary values, percentages, etc.
 
