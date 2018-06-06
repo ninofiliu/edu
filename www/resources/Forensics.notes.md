@@ -4,12 +4,19 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 
 | Slides file | completion status |
 | --- | --- |
-| intro | done |
-| static analysis A | done |
-| static analysis B | done |
-| reverse engineering tools | ignored |
-| dynamic analysis | in progress |
-| (more slides to come) | --- |
+| [intro](https://my.eurecom.fr/upload/docs/application/pdf/2018-03/malware_intro.pdf) | done |
+| [static analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-03/static_analysis_a_2018-03-22_10-54-54_196.pdf) | done |
+| [static analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-03/static_analysis_b.pdf) | done |
+| [reverse engineering tools](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/reveng_tools.pdf) | ignored |
+| [dynamic analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/malware_analysis_sandboxes.pdf) | in progress |
+| [dynamic analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/dynamic_analysis_part_b.pdf) | to do |
+| [computer forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/forensics_intro_wide.pdf) | to do |
+| [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | to do |
+| [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | to do |
+| [network forensics B](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/network_forensics.pdf) | to do |
+| [forensics techniques](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/basic_techniques.pdf) | to do |
+| [logical reasonning A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_1.pdf) | to do |
+| [logical reasonning B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_2.pdf) | to do |
 
 ## Binary and malware analysis
 
@@ -284,4 +291,4 @@ The idea of a sandbox is crucial. The idea is to run the malware inside an isola
 
 ### Chosing the right sandbox analysis method
 
-**automated analysis / manual analysis**: 
+**automated analysis / manual analysis**: automated is fast and the configuration is already supported by a team of experts, but manual analysis lets one tweak the inputs, and create an environment not known by attackers.

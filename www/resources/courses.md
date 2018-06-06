@@ -11,4 +11,4 @@
 | Law       | drop out |
 | NetSoft   | update the notes |
 | SecAppli  | update the notes |
-| WebSem    | update the notes |
+| WebSem    | Notes done. Finish exam |
