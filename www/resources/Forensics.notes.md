@@ -14,6 +14,7 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | to do |
 | [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | to do |
 | [network forensics B](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/network_forensics.pdf) | to do |
+| [disk and filesystem forensics](...) | to do |
 | [forensics techniques](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/basic_techniques.pdf) | to do |
 | [logical reasonning A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_1.pdf) | to do |
 | [logical reasonning B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_2.pdf) | to do |
@@ -292,3 +293,14 @@ The idea of a sandbox is crucial. The idea is to run the malware inside an isola
 ### Chosing the right sandbox analysis method
 
 **automated analysis / manual analysis**: automated is fast and the configuration is already supported by a team of experts, but manual analysis lets one tweak the inputs, and create an environment not known by attackers.
+
+**real machine / VM**: real machines are accurate, undetectable, and not prone to evasion, but VMs are scalable and easily restorable/monitored. VM detection use the following techniques:
+
+* VM-specific artefacts: device drivers name, many references to "VMWare" or similar, etc
+* Look for differences in memory structures: <!-- TO FINISH -->
+
+**running / emulating**: in a VM, either CPU+memory is emulated, or the whole computer is. Speed and flexiblity trade-off. Note that running a malware is legal but the conscequences (trojan spread, spam) might not. The traffic should be filtered: redirection of SMTP, emulation of well-known services...
+
+Take into account to **operational security**: when analysis is performed, informations can be leaked. Beacons can be used to detect the presence of a manual analysis. Probes are special programs used to harvest data about the execcution environment and send back the infos.
+
+**Triggers**: malware analysis usually spend a few minutes on each sample, detection can be avoided simply by waiting for a while. Logic bombs are samples that are triggered only given a specific event, like a set of keystrokes, a particular date, or the visit of a particular URL.
