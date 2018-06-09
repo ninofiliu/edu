@@ -7,8 +7,8 @@
 | --- | --- |
 | introduction | done |
 | side-channel attacks | done |
-| Fault attacks | to do |
-| Probing attacks | to do |
+| Fault attacks | blocked: need to ask questions |
+| Probing attacks | in progress |
 
 ## Introduction
 
@@ -183,31 +183,99 @@ Several ways to induce flaws:
 * power supply glitch: can cause the processor to skip or misinterpret instructions
 * clock glitch: can cause errors in RAM read or instruction execution
 * temperature: can cause random bit flips, can cause write and not read, can cause read and not write
+* white light: can cause photoelectric effects
+* laser: similar to white light, more expensive but can be pushed further
+* X-rays and ion beams: allow an attack without depackaging, very expensive equipment with a complex setup but the focus can be perfect and devices can even be modified
 
-*(unfinished notes - stopped at [slide #53](http://soc.eurecom.fr/HWSec/lectures/faults/main.pdf#page=53))*
+Faults can be either provisional or destructive. Provisional faults are preferred because they allow for several experiments. Some more vocab:
+
+* SEU: single event upset, ie single bit flips, might be permanent if on static parts
+* MEU: multiple event upsets, ie several SEUs, usually a drawback for fault attack
+* SEL: single event latchup, permanent failure due to a short circuit
+* SEB: single event burnout, permanent failure due to the destruction of a transistor
+* SEGR: single event gate rupture
+* SESB: single event snap back faults, simmilar to latchups
+
+### BDL attack on RSA
+
+Attack:
+
+```
+C -> S	m					client sends message
+S -> C	(m^d)%n		server sends signed message
+									everybody knows n
+									attack = find d, so can sign documents
+```
+
+Chinese remainder theorem:
+
+```
+IF
+	p,q coprimes
+	(a,b) integers smaller than (p,q)
+THEN
+	there exists only one integer x smaller than pq such that:
+	x%p==a && x%q==b
+MORE
+	x can be directly found by
+	a*q*(q^-1%p)+b*p*(p^-1%q)
+	and
+	(a-b)*q*(q^-1%p)+b
+```
+
+Application to the RSA:
+
+```
+sp=m^d %p
+sq=m^d %q
+s =m^d %pq
+
+we note P=p^-1%q
+			  Q=q^-1%p
+
+CRT: s = sp*p*P + sq*q*Q
+       = (sp-sq)*q*Q+b
+```
+
+Let be S a faulty signature:
+
+```
+gcd(s-S) = gcd(qQ(sp-SP),qp)
+         = q * gcd(Q(sp-SP,p))
+         = q or pq
+```
+
+(I noted the snipped above from the slides but tbh it doesn't make any sense. I'm skipping a few slides & I'm asking him about it tomorrow.)
 
 
-<!--
 
---- Notes on the power attack on DES ---
+## Probing attacks
 
-known ciphertext attack
+### On-chip attacks
 
-[paper by Kocher](https://42xtjqm0qj0382ac91ye9exr-wpengine.netdna-ssl.com/wp-content/uploads/2015/08/DPA.pdf)
+#### Techniques
 
-1. CT known
-2. Back-compute with IP: L16:R16
-3. Make a power model
-4. Correlate a guess on the key and the power values
-	1. Make assumptions on the key
-	2. Put the model, the voltage value and the key together
-	3. Take the best key
-5. Thanks to the key, back-compute L15:R15
-6. Reiterate untill L1:R1
+On-chip attacks relies on depackaging and re-connecting in a new package. Usually slightly expensive and resource-consuming.
 
-The power model is based on the number of transitions: more transitions in the LR register = more power.
+Reverse engineering can be employed to visually observe the chip under a microscope and reconstruct the layout. ROM bits can also be retrieved: low power lasers can distinguish between open and closed transistors channels. This memory attack is slow and can't be used everytime, but freezing the RAM can help.
 
-The PCC have to be computed between the # of transitions and the power transition vector. weird, right? actually we do a PCC between the # of transition and each of the scalar values of the power transition vector (PCC trace). A good guess gives a PCC trace that gives a high spike that is located at the time of the transition.
+On-chip probing requires the use of microprobes. To probe on sub-micro structures, FIB (focused ion beam) must be used. Very expensive (approx. $1M the FIB machine) but allows for very interesting procedures.
 
-Note that in the lab, L16R16 are stored elsewhere, so the attack must be on L14R14->L15R15.
--->
+Originally designed for chip repairs. It allows for very high resolution imaging and the beams can go as low as 5nm in diameter. This allows for high precision material removal. Used along with platinium or insulator gases, it can also rewire the chip very precisely, allowing for probing and fault inductions.
+
+#### Countermeasures
+
+Note that the fixed cost of a chip is above $500K, so variations on chip circuits is simply not an option when it comes to countermeasures.
+
+If the registers are scattered around the chip, retrieving values is harder.
+
+If the memory content is enciphered, retrieving values is also harder but it shan't impact performance.
+
+Sensors can be placed onto the chip so as to detect intrusion (the intrusions are stated above: extreme temperature, UV, infra red, ionising radiations...). However a power source is needed in order to take action after detection.
+
+Dummy clock cycles can be introduced so as to mess up with the probing, which operates regularly and must be in sync with the clock.
+
+Metal mesh can be put on top of the chip so as to prevent probing by taking action when the mesh is modified. Note that FIB can easily bypass such meshes.
+
+#### Examples
+
