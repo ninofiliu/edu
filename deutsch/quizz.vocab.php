@@ -59,7 +59,7 @@ if (!isset($_GET["resource"])){
       padding-left: 0.5em;
     }
 
-    #update {
+    #update, #reinit {
       font-family: "Roboto Slab", serif;
       font-size: 2em;
       background-color: white;
@@ -70,7 +70,7 @@ if (!isset($_GET["resource"])){
       margin: 1em 0;
       border: 1px solid black;
     }
-    #update:hover {
+    #update:hover, #reinit:hover {
       cursor: pointer;
       background-color: #ccc;
     }
@@ -79,6 +79,7 @@ if (!isset($_GET["resource"])){
 <body>
   <table id="quizz"></table>
   <button id="update">Update knowledge</button>
+  <button id="reinit">Reinitialize knowledge</button>
 </body>
 <script>
   // ELEMENTS CREATION
@@ -174,7 +175,7 @@ if (!isset($_GET["resource"])){
   });
 
   // UPDATE KNOWLEDGE
-  $("#update").on("click",function(){
+  function send(){
     var form=$("<form>")
       .attr("action","quizz.vocab.php?update=true&resource="+resource)
       .attr("method","post")
@@ -183,6 +184,29 @@ if (!isset($_GET["resource"])){
         .attr("value",JSON.stringify(vocab))
       );
     $(document.body).append(form);
-    form.submit();
+    form.submit();    
+  }
+  $("#update").on("click",send);
+
+  // REINIT KNOWLEDGE
+  function shuffle(a) {
+      var j, x, i;
+      for (i = a.length - 1; i > 0; i--) {
+          j = Math.floor(Math.random() * (i + 1));
+          x = a[i];
+          a[i] = a[j];
+          a[j] = x;
+      }
+      return a;
+  }
+  $("#reinit").on("click",function(){
+    vocab=vocab.map(function(v){return {
+      english: v.english,
+      german: v.german,
+      tests: 1,
+      passed: 0
+    }});
+    shuffle(vocab);
+    send();
   });
 </script>

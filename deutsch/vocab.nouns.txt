@@ -1,84 +1,84 @@
-salary
-das Gehalt
-2
-0
-government
-die Regierung
-2
-1
-health
-die Gesundheit
-2
-0
-law
-das Gesetz
-2
-1
-place
-der Ort
-2
-1
-drug (med.)
-das Medikament
-2
-1
 society
 die Gesellschaft
-3
-0
-community
-die Gemeinde
-2
-0
-security
-die Sicherheit
-2
+7
 1
-happiness
-die Fröhlichkeit
-2
-0
 exam
 die Prüfung
-3
-0
-movie
-der Film
+7
 2
-0
-brain
-das Gehirn
+salary
+das Gehalt
+6
 2
-0
-eye
-das Auge
-2
-0
-army
-die Armee
-2
-1
-camera
-die Kamera
-2
-0
 truth
 die Wahrheit
+6
 2
-0
+camera
+die Kamera
+6
+2
+movie
+der Film
+6
+2
 location
 der Standort
-2
-0
-map
-die Karte
-3
+6
 2
 exhibition
 die Ausstellung
+7
 3
-1
+brain
+das Gehirn
+6
+3
+happiness
+die Fröhlichkeit
+6
+3
+health
+die Gesundheit
+6
+2
+community
+die Gemeinde
+6
+3
+security
+die Sicherheit
+6
+3
+eye
+das Auge
+6
+4
+drug (med.)
+das Medikament
+6
+3
+law
+das Gesetz
+6
+4
+map
+die Karte
+7
+5
+government
+die Regierung
+6
+5
+army
+die Armee
+6
+5
+place
+der Ort
+6
+4
 idea
 die Idee
-3
-2
+7
+6

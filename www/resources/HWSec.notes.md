@@ -277,5 +277,22 @@ Dummy clock cycles can be introduced so as to mess up with the probing, which op
 
 Metal mesh can be put on top of the chip so as to prevent probing by taking action when the mesh is modified. Note that FIB can easily bypass such meshes.
 
-#### Examples
+### On-board probing
+
+Game consoles are often the subject of on-board probing: the GameCube's encrypted boot was hacked in 12 months, the Xbox signed bootup and executables was hacked in 4 months, etc.
+
+This is mainly due to the fact that on-board probing is way easier than on-chip probing (gradute-student difficulty level, a few $100 are necessary).
+
+A few passive countermeasures are sometimes hard to overpass:
+
+* High-freq buses
+* Components hidden in PCB layers
+* BGA (ball-grid array) to prevent pad probing
+* Test point removals
+
+However, none of them are theoretically unbreakable.
+
+A popular active countermeasure is the enciphering and integrity checking of the memory bus (CPU-memory) thanks to an on-chip **memory bus bodyguard**. Note that it can have a big effect on performances. Software-assisted bodyguard enables for better performances but are more complex.
+
+Code itself can also be ciphered: it is enciphered once upon writing it in memory, and upon execustion, it is deciphered on the fly inside the chip. Like this, the only infos that can be probed on board are enciphered. It provides for protection and obfuscation, but not integrity (any enciphered instruction can be replaced during an active on-board probing attack). Only affects performance during cache miss.
 
