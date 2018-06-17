@@ -69,9 +69,15 @@ if (!isset($_GET["resource"])){
 <body>
 	<!-- lab HTML gets written here -->
 </body>
+<?php
+$resource=$_GET["resource"];
+if (!$md=file_get_contents("https://rawgit.com/ninofiliu/edu/master/www/".$resource)){
+  $md=file_get_contents($resource);
+}
+?>
 <script>
-	var source=<?php echo json_encode($_GET["resource"]); ?>;
-	var md=<?php echo json_encode(file_get_contents($_GET["resource"])); ?>;
+  var resource=<?php echo json_encode($resource); ?>;
+  var md=<?php echo json_encode($md); ?>;
 
 	var conv=new showdown.Converter({tables: true});
 	var html=conv.makeHtml(md);

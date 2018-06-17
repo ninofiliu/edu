@@ -135,9 +135,16 @@ if (!isset($_GET["resource"])){
     </div>
   </div>
 </body>
+
+<?php
+$resource=$_GET["resource"];
+if (!$md=file_get_contents("https://rawgit.com/ninofiliu/edu/master/www/".$resource)){
+  $md=file_get_contents($resource);
+}
+?>
 <script>
-  var resource=<?php echo json_encode($_GET["resource"]); ?>;
-  var md=<?php echo json_encode(file_get_contents($_GET["resource"])); ?>;
+  var resource=<?php echo json_encode($resource); ?>;
+  var md=<?php echo json_encode($md); ?>;
 
   // COURSE HTML CREATION
 
