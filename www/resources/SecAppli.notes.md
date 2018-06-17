@@ -2,7 +2,14 @@
 
 * Professor: Refik Molva (refik.molva@eurecom.fr)
 * Slides are on my.eurecom.fr
-* Notes status: last slide noted = part 2 slide ?
+
+
+| Outline | completion status |
+| --- | --- |
+| Access control | done |
+| Domain control | done |
+| Cryptographic security and the internet | done |
+| Wireless security | done |
 
 ## Access control (AC)
 
@@ -99,7 +106,7 @@ Along with these, there exists some Windows-specific components:
 * **Security principal (SP)**: user, group, or computer. SP have accounts. Local accounts are managed by the security account manager (SAM), domain accounts are managed by Active Directory.
 * **Security identifier (SID)**: identifies SP or domain trusts.
 * **Access token**: associated with a subject. For a user, created after a log on. SID of user + SID of all groups he belongs to
-* **Primary token**: associated to a process. Represents a its security subject. Inherited to child processes.
+* **Primary token**: associated to a process. Represents its security subject. Inherited to child processes.
 * **Impersonation token**: associated to a thread. Represents a client process' security subject
 * **Permission**: right to perform one or many operations on one or many objects.
 * **Privilege**: right to perform one or many operations that affects an entire computer.
@@ -200,6 +207,8 @@ In order to prevent proxies from being hacked, they are stripped out from non-es
 
 ### IPSec
 
+#### 101
+
 Several internet layer protocols suffers from flaws:
 
 | protocol | flaws |
@@ -218,7 +227,7 @@ It can work between two hosts (transport mode), between two gateways (tunnel mod
 
 host2host:
   [H1]
-    (IP|IPSec|data) over
+    (IP|IPSec|data)
   [internet]
     (IP|IPSec|data)
   [H2]
@@ -261,5 +270,217 @@ In fact, IPSec can be used in even more complex ways, here's a VPN + end-to-end 
 
 IPSec ensures security thanks to the following components:
 
-| component | provides |
-| AH (authentication header) | data integrity, origin authentication, protection against replays |
+| protocol | provides |
+| --- | --- |
+| AH (authentication header) | integrity, authentication, anti-replays |
+| ESP (encapsulating security payload) | integrity, authentication, anti-replays, confidentiality |
+| ISAKMP | key exchange and authentication |
+
+#### Key management
+
+ISAKMP (internet security assocation and key management protocol) is a framework for the negotiation of keys and algorithms. It supports several key distribution methods:
+
+* server-based (eg. Kerberos)
+* pair-wise (eg. Diffie-Hellman). Then called IKE = internet key exchange = ISAKMP + oakley
+* public key certification (eg. x509 or DNSSEC)
+
+And allows for:
+
+* Generation and distribution of symmetrical keys
+* Certification of public keys
+* Attribute negotiation
+
+The technical term for what ISAKMP accomplishes is **security association (SA)**.
+
+ISAKMP allows for IP spoofing protection, because a server responds to requests that contains IP_client, IP_server, hash(IP_client,IP_server,time,secret_client), and hash(IP_client,IP_server,time,secret_server), request that can be formulated only after a legitimate client-server exchange. The hashes are called **cookies**.
+
+
+
+### TLS/SSL
+
+SSL: 1990s, TLS: 2000s. TLS provides:
+
+* peer authentication (server or server+client)
+* confidentiality
+* integrity
+* anti-replay
+* session key generation
+* parameters negotiation
+
+#### Algorithm
+
+Before they exchange data, the proceed to a key exchange and agreement for the protocol and the public/private key used for the symmetric key exchange. That is when public keys can be certified *(authentication)*.
+
+Application data is then exchanged using the symmetric key *(privacy)* and the content checked with a MAC (message authentication code) *(integrity)*.
+
+#### Protocol
+
+`IP > TCP > (record = (handshake | change cipher | alert | application))`
+
+Record layer building:
+
+1. Data
+2. Data is fragmented
+3. Fragmented data is compressed
+4. MAC is added
+5. Encryption is performed
+6. record header is added
+
+A TLS session can be reused by several TCP connections.
+
+#### VPN over SSL
+
+IPSec is a good VPN solution but requires a resident IPSec program on the remote terminal. SSL enables an any-to-any solution that also crosses firewalls: traffic from the client and the secure gateway is SSL-encapsulated.
+
+However, there are security exposures that resides in the client's browser, like the history caching. In a nutshell:
+
+| / | VPN/SSL | VPN/IPSec |
+| --- | --- | --- |
+| Clientless | yes | no |
+| Firewall traversal | yes | no |
+| IP support | no | yes |
+| Client-side secu. exposure | high | low |
+| AC by the SG | yes | no |
+
+
+
+### Application security
+
+#### DNS
+
+**Resource records (RR)** are IP-name association (can also contain more informations like addresses of mail servers, of name servers, canonical names, etc). A **zone of authority** is a set of names managed by a name server.
+
+The explanation of the DNS protocol is not the subject but here's a reminder:
+
+```
+[client]-----[resolver]--+--[master]<--(name data)
+                         |     |
+                         |     V
+                         +--[slaves]
+```
+
+There exists multiple vulnerabilities in the protocol that runs over UDP:
+
+* MITM client-resolver
+* UDP amplification and reflection
+* Data modification on the slave
+* Cache poisonning on the resolver
+* Spoofing master-slave
+* Data modification on the name data input
+
+DNSSEC allows for securing against the three first threats by using publlic key algorithms for signatures of the messages.
+
+#### Routing: RIP, BGP and OSPF
+
+Intra-domain: routing information protocol (RIP), open shortest path first (OSPF). Inter-domain: border gateway protocol (BGP).
+
+The main issue about these protocols is bogus information updating the routing behavior of packets, allowing for traffic hijacking, monitoring, and denial of service, and neither of these protocol seriously implements security.
+
+Autonomous systems exchange reachability infos thrrough BGP. An autonomous system is a set of routers that fall under a single management authority. Router BGP communication over TCP is not protected, allowing for DoS, TCP spoofing, TCP hijacking, false advertisements, no authentication, and no data integrity.
+
+S-BGP (secure BGP) addresses the crux of the problem by using PKI for address attestation (proves AS originates address), route attestation (routes signed from one AS to another), but it is resource intensive. soBGP (secure origin BGP) goes further by offering tradeoffs (verify route before/after accepting connection, verify entire/part of a route, etc).
+
+#### SNMP
+
+Simple network management protocol. Over UDP:161. Used to collect infos and change behavior of devices on a network. Two components: manager and agent.
+
+The main issue resides in the lack of authentication, thus impersonation is possible and can lead to unauthorized disclosure or modification of data.
+
+
+
+
+
+## Wireless security
+
+### WiFi
+
+IEEE 802.11 is a set of media access control and physical layer specifications for implementing wireless local area network (WLAN) computer communication. Three standards for security: wired equivalent privacy (WEP), wifi protected access (WPA), and robust security network (RSN aka WPA2).
+
+The main threat is the lack of physical protection, allowing for easy and discrete local eavesdropping & MITM. Appropriate equipment can do the same from a few kilometers away.
+
+Since authentication frames are not authenticated (except in 802.11i), MITM is easy.
+
+The extensible authentication protocol (EAP) is an authentication framework (ie not only used in 802.x):
+
+```
+S  AP
+ <-  identity request
+ ->  identity response
+ <-  challenge
+ ->  response
+ <-  accept/deny
+```
+
+(S = supplicant, AP = access point)
+
+#### WEP
+
+Encryption:
+
+```
+K = shared key
+IC = integrity check = h(header.data)
+IV = random initialisation vector (in clear in the packet)
+k = RC4(K,IV)
+m = data.IC
+P = plaintext
+C = ciphertext = P XOR k
+```
+
+Partial known plaintext attack (ciphertext is always assumed to be known):
+
+```
+C1 XOR C2 = (P1 XOR RD4(K,IV)) XOR (P2 XOR RD4(K,IV))
+          = P1 XOR P2
+```
+
+What is known about P1 is also known about P2.
+
+Moreover, it's possible to retrieve the unsalted hash of the wifi password, allowing for rainbow attacks and the likes to gain unauthorized access to the router's services.
+
+#### WPA
+
+Software implementation implemented to secure WEP without hardware changes.
+
+#### RSN aka WPA2
+
+* Encryption by AES (advanced encryption standard, secure, but requires hardware changes for reasonable performances)
+* Dynamic authentication and encryption keys
+
+Operations:
+
+```
+S   AP   RADIUS
+ <->              discovery
+ <->  <->         (enterprise mode only) EAP authentication
+ <->              key mgmt
+ <->              data transfer
+ <->              connection termination
+```
+
+
+
+### GSM
+
+Components:
+
+* MS = mobile subscriber (phone + SIM)
+* BS = base station (communicates with the MS)
+
+Requirements:
+
+* Subscriber identity protection
+* Subscriber authentication
+* No MS masquerade
+
+The radio space is open to all attackers and malicious messages can be transmitted, thus causing:
+
+* SMS with broken headers than can crash phones
+* SMS Masquerading through fake caller ID
+
+The 3rd Generation Partnership Project (3GPP) fixed most of the security flaws of GSM. Main features:
+
+* Compatibilit with GSM
+* Minimal trust in intermediate components
+* Longer keys
+* Usual-network mutual authentication
