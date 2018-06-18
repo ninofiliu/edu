@@ -15,63 +15,17 @@ if (!isset($_GET["resource"])){
 
 <head>
 	<script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.6/dist/showdown.min.js"></script>
-	<style>
-		body {
-			font-family: "Segoe UI",sans-serif;
-			width: 800px;
-			margin: auto;
-			padding-bottom: 3em;
-			border-bottom: 3em solid #123;
-		}
-		h1 {
-			font-size: 3em;
-			background-color: #123;
-			padding: 0.5em;
-			text-align: center;
-			color: white;
-		}
-		h2 {
-			font-size: 2em;
-			background-color: #246;
-			border-top: 0.4em solid #123;
-			color: white;
-			padding: 0.4em;
-		}
-		h3 {
-			font-size: 1.5em;
-			background-color: #369;
-			border-top: 0.4em solid #246;
-			color: white;
-			padding: 0.4em;
-		}
-		h4 {
-			font-size: 1.5em;
-			color: #123;
-			border-top: 0.3em solid #123;
-		}
-		pre {
-			background-color: #ddf;
-			padding: 0.5em;
-		}
-		table {
-			border-collapse: collapse;
-		}
-		td, th {
-			border: 1px solid #bbb;
-			padding: 0.3em;
-		}
-		img {
-			width: 100%;
-		}
-	</style>
-
+	<link rel="stylesheet" href="css/view-lab.css">
 </head>
 <body>
 	<!-- lab HTML gets written here -->
 </body>
 <?php
 $resource=$_GET["resource"];
-if (!$md=file_get_contents("https://rawgit.com/ninofiliu/edu/master/www/".$resource)){
+error_reporting(0);
+$md=file_get_contents("https://rawgit.com/ninofiliu/edu/master/www/".$resource);
+error_reporting(E_ERROR|E_WARNING|E_PARSE);
+if (!$md){
   $md=file_get_contents($resource);
 }
 ?>

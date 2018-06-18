@@ -39,7 +39,7 @@ IR imaging can be used too because the facial heat emission patterns can used to
 
 Face recognition is challenging because it must take into account the variability in the expression, lighting, and face dressing. The two main successful families of algorithms in this field are eigenvectors-based algorithms and elastic graph matching.
 
-The ICAO adopted three vectors of recognition: face, fingerprint and iris. Note that multimodal identification is often used in orderr to combine the perks of a method with another. Combining methods requires to have a policy to combine the results: and/or/SVM combination? FRR/FAR considerations?
+The ICAO adopted three vectors of recognition: face, fingerprint and iris. Note that multimodal identification is often used in order to combine the perks of a method with another. Combining methods requires to have a policy to combine the results: and/or/SVM combination? FRR/FAR considerations?
 
 ### Eigenfaces and fisherfaces
 
@@ -66,7 +66,8 @@ PCA minimises the least-square error when approximating a face, thus providing a
 
 Some numbers for state-of-the-art identification techniques:
 
-| | FRR | FAR |
+| Technique | FRR | FAR |
+| --- | --- | --- |
 | fingerprint | 0.2% | 0.2% |
 | face | 10-20% | 0.1-20% |
 | text-dependant speak | 1-3% | 1-3% |
