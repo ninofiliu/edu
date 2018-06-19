@@ -306,8 +306,7 @@ I live in [Paris](location)
 YAGO (yet another great ontology): open-source KB that automatically extracts infos from Wikipedia and other sources.
 
 
-#### Semantic Networks were popularized in the sixties by Collins and Quillian. What are the two families
-of technologies that have been developed later and how do those relate to the Semantic Web? (2016)
+#### Semantic Networks were popularized in the sixties by Collins and Quillian. What are the two families of technologies that have been developed later and how do those relate to the Semantic Web? (2016)
 
 * **Description logic**: Describe domain in terms of concepts (classes), roles (properties, relationships) and individuals. This is basically what RDF and triple data does with their object-predicate-subject paradigm.
 * **Conceptual Graphs**: Graphs are at the basis of the linking of data in the semantic web.
@@ -337,6 +336,3 @@ wd:Q12418
 
 
 (similar to questions above, ignored)
-
-
-#### 
