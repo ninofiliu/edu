@@ -2,7 +2,7 @@
 
 | course    | progress                                                             |
 | --------- | -------------------------------------------------------------------- |
-| All       | check mail for further instructions                                  |
+| All       | /                                                                    |
 | AML       | /                                                                    |
 | Forensics | Update the notes. Do the project. Do the previous year's challenges. |
 | HWSec     | Update the notes. Review the exam. Make the A4.                      |
