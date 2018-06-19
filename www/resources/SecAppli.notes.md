@@ -234,17 +234,17 @@ host2host:
 
 network2network:
   [H1]
-    /IP.H1|data/
+    /IP(H1-H2)|data/
   [intranet]
-    /IP.H1|data/
+    /IP(H1-H2)|data/
   [Security gateway 1]
-    (IP.SG1|IPSec|IP.H1|data)
+    (IP(SG1-SG2)|IPSec|IP(H1-H2)|data)
   [internet]
-    (IP.SG1|IPSec|IP.H1|data)
+    (IP(SG1-SG2)|IPSec|IP(H1-H2)|data)
   [Security gateway 2]
-    /IP.H1|data/
+    /IP(H1-H2)|data/
   [intranet]
-    /IP.H1|data/
+    /IP(H1-H2)|data/
   [H2]
 
 host2network:
@@ -484,3 +484,88 @@ The 3rd Generation Partnership Project (3GPP) fixed most of the security flaws o
 * Minimal trust in intermediate components
 * Longer keys
 * Usual-network mutual authentication
+
+
+
+
+
+## More
+
+### The iptables command
+
+Excerpt from the man page:
+
+```
+OPTIONS
+  -A, --append chain rule-specification
+    Append rule(s) to the end of the chain
+
+  -F, --flush [chain]
+    Flush the chain, or flush all if no chain specified
+
+  -N, --new-chain chain
+    Create new chain
+
+  -P, --policy chain target=ACCEPT|DROP
+    Set the policy for the chain
+
+RULE SPECIFICATION PARAMETERS
+  -s, --source address[/mask][,...]
+  -d, --destination address[/mask][,...]
+    Specifies IP address. Host names authorized.
+
+  -i, --in-interface name
+  -o, --out-interface
+    Self-explanatory
+
+  -p, --protocol protocol
+    tcp, udp, udplite, icmp...
+    "!" before the protocol inverts the test
+    more parameters can be specified inside, eg:
+    -p udp --sport 80
+    -p tcp --dport ssh
+    -p icmp --icmp-type echo-reply
+
+  -m, --match match
+    specifies a match module, further options are then used, mainly:
+    -m connbytes --connbytes from[:to] min
+    -m connbytes --connbytes from[:to] !max
+    -m connbytes --connbytes-mod {packets|bytes|avgpkt}
+    -m state --state {NEW|ESTABLISHED|RELATED|INVALID}
+
+  -j, --jump target
+    Specifies what to do with the matched packet
+
+CONNECTION TRACKING
+  uses the -m option
+```
+
+Useful examples:
+
+Cleanup all the existing rules:
+
+```
+iptables -F
+```
+Set default policy to the FORWARD table:
+
+```
+iptables -P FORWARD DROP
+```
+Block the traffic from IP=1.2.3.4:
+
+```
+iptables -A INPUT -s 1.2.3.4 -j DROP
+```
+Allow HTTP traffic on interface eth0:
+
+```
+iptables -A INPUT  -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED     -j ACCEPT
+```
+Allow ping from outside:
+
+```
+iptables -A INPUT  -p icmp --icmp-type echo-request -j ACCEPT
+iptables -A OUTPUT -p icmp --icmp-type echo-reply   -j ACCEPT
+```
