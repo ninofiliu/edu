@@ -75,7 +75,12 @@ if (!$md){
 
   $(".title").on("click",function(){
     // var targetElt1=$($("#right h1, #right h2, #right h3, #right h4").get(this.dataset.index)).first(); # menu method 1
-    var targetElt2=$("#"+this.innerHTML.split(" ").join("").toLowerCase()).first();
+    var targetElt2=$(
+      "#"+this.innerHTML
+      .split(" ").join("")
+      .split("/").join("")
+      .toLowerCase()
+    ).first();
 
     $("#right").get(0).scrollTo({
       top: targetElt2.offset().top-$("#right-scroll").offset().top,
