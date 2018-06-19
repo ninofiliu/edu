@@ -6,7 +6,7 @@
 | AML       | /                                                                    |
 | Forensics | Update the notes. Do the project. Do the previous year's challenges. |
 | HWSec     | Update the notes. Review the exam. Make the A4.                      |
-| ImSecu    | Update the notes.                                                    |
+| ImSecu    | Review the exam.                                                     |
 | NetSoft   | Update the notes. Print the course.                                  |
 | SecAppli  | Review the exam.                                                     |
 | WebSem    | Learn notes & exam.                                                  |

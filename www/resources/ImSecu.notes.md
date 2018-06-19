@@ -5,9 +5,9 @@ Notes by Nino Filiu; based on the [ImSecu](http://www.eurecom.fr/en/course/ImSec
 | Slides file | completion status |
 | --- | --- |
 | [Biometrics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/introbiom18-slides.pdf) | done |
-| [Watermarking](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/intro-watermarking2018-slides.pdf) | stopped at the 3D watermarking |
-| [Forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/introdif-april2018-slides.pdf) | to do |
-| [Video surveillance](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/videosurveillancerefdoc15mai2018.pdf) | to do |
+| [Watermarking](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/intro-watermarking2018-slides.pdf) | done |
+| [Forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/introdif-april2018-slides.pdf) | done |
+| [Video surveillance](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/videosurveillancerefdoc15mai2018.pdf) | done |
 
 ## Biometrics
 
@@ -118,3 +118,148 @@ When watermaking video, the following techniques are used:
 * temporal desynchronization: changes of frame rate
 * editing: cut and splice, graphic overlays ...
 
+Watermarking 3D objects is harder but still possible. Firstly, there are several categories for 3D modelling, the most popular being mesh-based modelling, degradationless data modification can be applied to it:
+
+* Modify the order of the triangles
+* Modify the order of triplets in the triangle
+* Modify the organisation of the data storage
+* Transform one triangle into 4, encode infos in the position of points
+
+But data modification can be applied to geometrical data (eg modify point positions). The trick is that most 3D models pass through a mesh simplification so as to reduce its storage and memory size, but it can also overwrite the watermark in the same way that image compression can often overwrite image watermarking.
+
+
+
+## Forensics
+
+Goal: detection of modifications, authentication, and hardware identification.
+
+### Hardware identification
+
+```
+(image)
+   |
+   V
+[lens, filters]     | acquisition artifacts
+[CFA]               |
+[Imaging sensor]    |
+[CFA interpolation] |
+   |
+   V
+[post-processing]   | processing artifacts
+[digital image]     | 
+[storage]           | 
+```
+
+*CFA: color filter array, a RGB pixel filter that allows light-sensible pixels to be sensible to only R, G , or B*
+
+When uniform light falls on a camera sensor, each pixel should output exactly the same value. Small variations in cell size and substrate material result in slightly different output values. The difference between the true response from a sensor and a uniform response is known as **Photo Response Non Uniformity (PRNU)**. It is caused by the physical properties of the censor itself and is often used to identify the censor because:
+
+* All censors exhibit a unique PRNU
+* Lens-independent
+* Content-independent
+* Environment-independent
+* Survives post-processing
+* PRNU is present in every non-dark picture
+
+The framework of action to obtain an approximation of the PRNU is:
+
+1. Obtain low-frequency images (ie containing large, slowly varying zones like sky or walls)
+2. De-noise
+3. Subtract the denoised pictures with the original to get noise residuals
+4. Average noise residuals to get a PRNU estimate
+
+Correlate-compare this PRNU with the noise residual of an image to see if there is a match.
+
+However, this technique only identifies a particular sensor, and often a camera model identification is more handy, thanks to the **digital image processor (DIP)**, the camera post-censor component that implements demosaicing algorithms to recover missing infos, perform white balancing, gamma correction, and the likes. For example, based on the fact that there exists several **Bayer patterns** for the CFA, there exists different demosaicing algorithms, and artifacts that goes along with them.
+
+
+
+### Tamper detection
+
+With modern softwares, it is now very easy to perform convincing image and video manipulations.
+
+There is however two main types of tampering: these which involve a single image and these which involve more. Ther firsst is detected thanks to algorithmic techniques:
+
+* Differences in demosaicking
+* Differences in chromatic aberrations
+* Detection of image scaling and rotation
+
+And advanced techniques:
+
+* Inconsistencies in eye reflexes
+* Inconsistencies in lightning (handy when the eye in the HD because it's a sphere)
+
+For single-image manipulation:
+
+* duplicated region detection: on small blocks, do a PCA and detect which small block matches
+* Detect DCT coefficient artifacts for double JPEG compression
+
+CGI can also be used in image modification. In this case, one can often see an absence of hardware artifacts.
+
+
+
+## Video surveillance
+
+### 101
+
+Video surveillance application are mostly used to remotely record what is happening for legal archive or remote surveillance, but further applications can be used:
+
+* car plate identification to modelize traffic
+* automatic abnormal event detection
+* marketing statistics in shopping malls
+* person recognition
+* people counting and crowd flows estimations
+
+Along with different uses are different camera types:
+
+* fixed camera
+* pan/tilt/zoom (PTZ)
+* night vision (near infrared + near infrared illuminators)
+* thermal cams
+* omniview aka 360 cameras
+* RGBD (rgb + depth) thanks to time of flight estimations, or kinect-like (that use infrared redshift/blueshift)
+
+However most of these applications follow the same framework: `acquisition -> processing -> visualization`.
+
+### Issues
+
+The highest cost for surveillance is wiring, so IP transmission seems tempting, however using IoT for security is a widely considered as a bad move, because it is prone to MiTM and other tampering.
+
+Heterogeneous networks: even if there are a lot of CCTVs available, the fact that they are not interconnected and don't work together in an intelligent way reveals uneploited capacitites.
+
+**Proactive surveillance** (agents monitor screens, detect events and react) is more costly than **reactive surveillance** (agents react upon event reporting) but also more efficient. Automation can help making reporting more reliable so as to shift as much as possible to a reactive surveillance while still maintening security standards.
+
+Cameras often record a high amount of useless data. Storage is not that expensive, but human processing after an even is: after big events, policemen often work for days just to manually observe hours and hours of footage. In Britain, there is [one CCTV for every 14 people](https://www.telegraph.co.uk/technology/10172298/One-surveillance-camera-for-every-11-people-in-Britain-says-CCTV-survey.html). Hacking of storage facilities also poses a threat.
+
+The saint-graal of surveillance is to design a system that both protect the privacy of people while still performing required tasks. Example of techniques aiming to perform such thing:
+
+* total automation
+* encrypt privacy-sensitive image/video zones, like windows of the neighbors (aka region of interest (ROI))
+* de-identifying faces
+
+
+### Techniques
+
+#### Foreground/background distinction
+
+Basic approaches (I=image, FG=foreground, BG=background)
+
+* frame differencing: `FG(t) = abs(I(t)-I(t-1))>treshold ? I(t) : false`
+* median: `BG(t) = median([BG(i) for i in [0:t]])`
+* average: `BG(t) = 0.05*I(t-1) + 0.95*B(t-1)`
+
+More advanced approaches uses gaussian mixtures and eigenbackgrounds.
+
+#### Body and face detection
+
+Oriented gradients help build a bounding box for body detection.
+
+Viola-Jones, AdaBoost, and Haar features are often combined for face detection.
+
+Often, the main issue is face occlusion (glasses, hat).
+
+#### People tracking
+
+Note that most of the time, we want people re-identification (for tracking people automatically) rather that precise identification. In this case, soft biometrics are often used (height, gait).
+
+Spatial tracking algorithms often use a predict-correct loop for tracking (prediction for example based on the fact that people mostly move linearly and uniformly).
