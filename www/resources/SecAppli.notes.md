@@ -334,7 +334,7 @@ IPSec is a good VPN solution but requires a resident IPSec program on the remote
 
 However, there are security exposures that resides in the client's browser, like the history caching. In a nutshell:
 
-| / | VPN/SSL | VPN/IPSec |
+| Requirement | VPN/SSL | VPN/IPSec |
 | --- | --- | --- |
 | Clientless | yes | no |
 | Firewall traversal | yes | no |
