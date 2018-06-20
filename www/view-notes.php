@@ -78,6 +78,8 @@ if (!$md){
     var targetElt2=$(
       "#"+this.innerHTML
       .split(" ").join("")
+      .split("(").join("")
+      .split(")").join("")
       .split("/").join("")
       .toLowerCase()
     ).first();
