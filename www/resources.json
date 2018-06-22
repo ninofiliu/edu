@@ -42,6 +42,10 @@
 		"desc": "Making networks more flexible thanks to NFV, SDN and cloud computing",
 		"resources":[
 			{
+				"desc": "Course",
+				"src": "NetSoft.notes.md"
+			},
+			{
 				"desc": "Lab on pyretic",
 				"src": "NetSoft.lab.pyretic.md"
 			},

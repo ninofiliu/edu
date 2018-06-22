@@ -47,7 +47,7 @@ The **data plan** is the fast component of a router where dumb routing decisions
 
 #### OpenFlow
 
-[https://en.wikipedia.org/wiki/OpenFlow](https://en.wikipedia.org/wiki/OpenFlow) is the most  widely  accepted  and deployed  open  southbound  standard  for SDN, but others exist. OpenFlow is at TCP:6653/TLS. All in all, OpenFlow does layer 3 table modification on switches, but as a concept, it is more complex.
+[OpenFlow](https://en.wikipedia.org/wiki/OpenFlow) is the most  widely  accepted  and deployed  open  southbound  standard  for SDN, but others exist. OpenFlow is at TCP:6653/TLS. All in all, OpenFlow does layer 3 table modification on switches, but as a concept, it is more complex.
 
 Switches have match/action **tables**: if a match is found in one of the **table entry**, the corresponding action set is undertaken (drop packet, modify packet fields, etc). If there is no match at the end of the table, the default table action is undertaken (often go to next table, drop, or send to controller).
 
@@ -81,4 +81,36 @@ Controllers -> switch communications can be in the form of a:
 **OpFlex**: controller tells the policy to the network device, which implements it in its own way.
 
 **NetConf**: yang language to build something like an SNMP on steroids
+
+
+
+### Network hypervisors (switches)
+
+The main perk of SDNs is the network virtualization:
+
+* virtual nodes: VMs or containers
+* virtual links: ethernet frames are encapsulated in IP packets
+
+#### Open vSwitch
+
+**Open vSwitch (OVS)** runs virtual nodes. The nodes communicate through vethX, the ethernet frames get encapsulated by OVS and sent through ethX to communicate with other OVSs.
+
+OVS has two planes: kernel/user, packets that match a cache entry aren't brought up to the user space and forwarded directly.
+
+**OVSDB** is a southbound API complementary to overflow to manage OVSs.
+
+#### Other
+
+* FlowVisor: acts as a transparent proxy between OpenFlow switches and OpenFlow controllers
+
+
+
+### NOS (controllers)
+
+Goal = high level programming of the network, previously only programmable through low-level code.
+
+* **POX**: Controller register for events that are attached to event handlers. NOX=C++, POX=python.
+* **FloodLight**: OpenFlow events. Java.
+* **Onix**: distributed controller. C/Python.
+* etc
 
