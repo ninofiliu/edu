@@ -9,7 +9,7 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [static analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-03/static_analysis_b.pdf) | done |
 | [reverse engineering tools](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/reveng_tools.pdf) | ignored |
 | [dynamic analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/malware_analysis_sandboxes.pdf) | done |
-| [dynamic analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/dynamic_analysis_part_b.pdf) | to do |
+| [dynamic analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/dynamic_analysis_part_b.pdf) | done |
 | [computer forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/forensics_intro_wide.pdf) | to do |
 | [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | to do |
 | [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | to do |
@@ -381,3 +381,73 @@ Anti-debugging tricks:
 * INT3 detection
 * Timing
 * Only one debugger can be rattached to the program at the same time
+
+
+
+## Computer forensics
+
+### 101
+
+Digital forensics involves the preservation, collection, validation, identification, analysis, interpretation, documentation, and presentation of digital evidences derived from computer media in a way that can be used in a court of law. History:
+
+* 1978: first legislation against unauthorized data modification
+* 1982: Norton's undelete program
+* 1984: Fred Cohen coins the term virus
+* 1984: FBI established the computer analysis and response team
+* 1990's: international discussions about the legal frameworks for computer forensics
+* 2004: convention on cybercrime (signed by 43 nations)
+
+Framework of action:
+
+1. Seizure (optional): marking and storgin all the components
+2. Acquisition: acquire a copy without damaging the source
+3. Analysis
+4. Reporting
+
+We'll only deal with the non-legal aspects of steps 1,2,3 here.
+
+### Seizure
+
+Pulling the plug is almost always better than pressing the power off button, which trigger processes and modify the memory. However, it might sometimes be easier to let the computer on:
+
+* loss of volatile data
+* loss of access to encrypted disk
+* eg: facebook open, last messages readable
+
+### Acquisition
+
+Best practices:
+
+* Go from volatile to less volatile
+* Do not trust the acquisition programs on the target system
+
+Distinction:
+
+* Logical acquisition: `cp` and the likes. Only get what the system knows and want to show you (beware of rootkits and deleted files).
+* Physical acquisition
+
+Big issue: device might be physically affected.
+
+### Analysis
+
+Two approaches:
+
+1. Looking for something we do not know (infected app, browser history, VoIP calls, running processes) in something we know (filesystem, PCAP, memory dump)
+2. Looking for something we know (regex, signatures of files, keys, or URLs) in something we do not know (unknown acquired data structure)
+
+### Indident response
+
+Incidents are not-standards events that might cause service interruption/quality reduction. Includes:
+
+* DoS
+* Malware infection
+* Modified web page
+* Stolen credentials
+* Deletion or modification of data
+
+IR (incident response) goals:
+
+1. Handle: identify, stop, contain the incident
+2. Recover: remove, repair, restore the victim's system
+3. Investigate: collect evidence, deduce the cause and the extent
+
