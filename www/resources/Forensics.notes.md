@@ -14,10 +14,10 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | done |
 | [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | done |
 | [network forensics B](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/network_forensics.pdf) | done |
-| [disk and filesystem forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/disk_forensics.pdf) | to do |
-| [forensics techniques](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/basic_techniques.pdf) | to do |
-| [logical reasonning A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_1.pdf) | to do |
-| [logical reasonning B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_2.pdf) | to do |
+| [disk and filesystem forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/disk_forensics.pdf) | done |
+| [forensics techniques](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/basic_techniques.pdf) | done |
+| [logical reasonning A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_1.pdf) | ignored |
+| [logical reasonning B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_2.pdf) | ignored |
 
 ## Binary and malware analysis
 
@@ -686,3 +686,54 @@ Remember that only the firmware of the disk can access the reserved service area
 **Bootkits** interfere with the boot process before the OS taks control, infecting the OS by loading malicious unsigned kernel modules.
 
 Malware can hide their code in hidden files.
+
+
+
+## Techniques
+
+### Entropy
+
+Based on entropy, the file type can generally be predicted:
+
+| entropy | prediction |
+| --- | --- |
+| >7 bits per byte | encrypted data |
+| ~5 bits per byte | programming language |
+| ~3 bits per byte | machine code |
+| <2 bits per byte | uncompressed data |
+
+### Hashes
+
+Used for identification of known bad files and filtering of known good files. But:
+
+* Blind to harmless small modifications
+* Blind to partial comparison
+* Possible fragmentation
+* The file can be stored in different ways, eg on disk vs on memory
+
+Possible countermeasures:
+
+* block-based hashes
+* random sampling (if the data we're looking for is big enough, the probability of not finding it gets low quick)
+* other tools for similarity measurements:
+    * ssdeep: two files are similar if they share sub-parts
+    * sdhash: two files are similar if they share improbable sequences of bytes
+    * tlsh: two files are similar if they have similar distributions of substrings of n bytes
+
+### Characters encoding
+
+* ASCII
+* UNICODE (utf-8 and utf-16, beware of the endianness for the last one)
+* %-encoding
+* hexadecimal: 2bytes per char: A->41
+* UUencoding: encode 6 bits at a time + footer/header
+* base64: 6 bits at a time, MIME supported
+* quoted-printable: like %-encoding, but with a = instead. Escapes the non-readable chars
+
+### Carving
+
+Carving files gets efficient by carving its heading and footer, but ther might be a lot of false positives if they are too short. Another approach is to base the search on the structure, or on the content: the entropy or the byte distribution might reveal the file type or other informations.
+
+Blocks with high entropy are likely unique. The existence of such a block (hash-identified) on a disk is likely to reveal the presence of the file the unique block comes from.
+
+Note that carving can also extract useless informations: for example there exists 20K email addresses on a *clean* fedora distribution. Tools like `bulk_extractor` support list of known features to filter out.
