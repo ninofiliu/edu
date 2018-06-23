@@ -8,7 +8,7 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [static analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-03/static_analysis_a_2018-03-22_10-54-54_196.pdf) | done |
 | [static analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-03/static_analysis_b.pdf) | done |
 | [reverse engineering tools](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/reveng_tools.pdf) | ignored |
-| [dynamic analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/malware_analysis_sandboxes.pdf) | in progress |
+| [dynamic analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/malware_analysis_sandboxes.pdf) | done |
 | [dynamic analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/dynamic_analysis_part_b.pdf) | to do |
 | [computer forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/forensics_intro_wide.pdf) | to do |
 | [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | to do |
@@ -304,3 +304,80 @@ The idea of a sandbox is crucial. The idea is to run the malware inside an isola
 Take into account to **operational security**: when analysis is performed, informations can be leaked. Beacons can be used to detect the presence of a manual analysis. Probes are special programs used to harvest data about the execcution environment and send back the infos.
 
 **Triggers**: malware analysis usually spend a few minutes on each sample, detection can be avoided simply by waiting for a while. Logic bombs are samples that are triggered only given a specific event, like a set of keystrokes, a particular date, or the visit of a particular URL.
+
+### Monitoring
+
+Intercepting the functions called by a program help gaining an overview of the behavior of the program.
+
+**Tracing** is a type of event logging. Linux' `strace` reports the system calls and the signals of a process while `ltrace` reports the library calls.
+
+**DLL injection**: upon loading a DLL, the dllmain is executed in the address space of a process. One can force a process to load a DLL, thus arbitrary code can be run.
+
+**Hooking** covers a range of technique intercepting and instrumenting function calls, messages or events before they pass from one component to another. Used for debugging, but also rootkits that fake API outputs so as to be undetected.
+
+Techniques can be combined: CWSandbox injects a DLL that performs inline hooking of the API calls. All system objects that could reveal the presence of the analysis framework are sanitized by the hooks so that they never reach the process under analysis.
+
+### Debugging
+
+Debuggers are highly used. GDB Main options:
+
+```
+run [params]
+
+stepi [n]
+    executes n machine instructions
+
+nexti [n]
+    executes n function calls
+
+continue
+
+finish
+    execute untill the stack frame returns
+
+break <location>
+break <location> if <expression>
+    stop before the instruction at that location is executed
+
+watch <expression>
+rwatch <expression>
+awatch <expression>
+    set a watchpoint for the write, read, or access (r+w) of an expression
+
+catch fork
+catch syscall [which]
+    Set a catchpoint (break on an certain event)
+
+x/<n><u><f>
+    n: how much units to display
+    u: unit, in:
+        b: bytes
+        h: half-words
+        w: words
+        g: giant words
+    f: display format, in:
+        x: hex
+        d: dec
+        u: unsigned
+        t: binary
+        c: char
+        f: float
+        s: string
+        i: machine instruction
+
+info registers
+    print the content of registers
+
+set <expression>
+return [value]
+jump <location>
+    alter the process state
+```
+
+Note that breakpoints usage in self-modifying code analysis is tricky because the breakpoint consists in replacing an instruction by another (INT3).
+
+Anti-debugging tricks:
+
+* INT3 detection
+* Timing
+* Only one debugger can be rattached to the program at the same time

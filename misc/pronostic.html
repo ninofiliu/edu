@@ -1,0 +1,36 @@
+<body>
+  <h1>Possible scenari</h1>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  var sub=[
+    "German,2L,1",
+    "CompArch,5T,1",
+    "ManagIntro,5G,1",
+    "Netw_I,5T,1",
+    "OS,5T,1",
+    "SecCom,5T,0",
+    "SoftDev,5T,1",
+    "SysSec,5T,1",
+    "AML,5T,0.7",
+    "Forensics,5T,0.8",
+    "FormalMet,3T,0.7",
+    "HWSec,3T,0.95",
+    "ImSecu,3T,0.95",
+    "NetSoft,3T,0.5",
+    "SecAppli,3T,1",
+    "WebSem,3T,1"
+  ].map(function(x){
+    x=x.split(",");
+    return {
+      name: x[0],
+      credits: {
+        t: x[1].includes("T") ? +x[1].substring(0,1) : 0,
+        g: x[1].includes("G") ? +x[1].substring(0,1) : 0,
+        l: x[1].includes("L") ? +x[1].substring(0,1) : 0
+      },
+      p: +x[2]
+    }
+  });
+</script>

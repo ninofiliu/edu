@@ -45,3 +45,6 @@ Shares the virtualization and the multitenancy (a single instance of software ru
 
 Multi-access Edge Computing (MEC), formerly Mobile Edge Computing, is a network architecture concept that enables cloud computing capabilities and an IT service environment at the edge of the cellular network[1][2] and, more in general at the edge of any network. The basic idea behind MEC is that by running applications and performing related processing tasks closer to the cellular customer, network congestion is reduced and applications perform better. MEC technology is designed to be implemented at the cellular base stations or other edge nodes, and enables flexible and rapid deployment of new applications and services for customers. Combining elements of information technology and telecommunications networking, MEC also allows cellular operators to open their radio access network (RAN) to authorized third-parties, such as application developers and content providers.
 
+* User-dedicated services: gaming, remote desktop, augmented reality
+* Operator and third party services: location tracking, connected vehicles
+* Network performance and QoE: content and DNS caching
