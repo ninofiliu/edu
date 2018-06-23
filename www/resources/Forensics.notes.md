@@ -503,3 +503,127 @@ Often starts by investigating one process after another. Note that most malwares
 * removing themselves from process lists → do a process scan, not a process listing
 * renaming themselves into system processes → do a dlllist to find where the process comes from
 * inject their whole code into the dll of a legitimate process
+
+
+
+## Network forensics
+
+### 101
+
+Several types of data:
+
+* PCAP: lots of storage, but represents the whole traffic
+* netflows: summarized flow data
+* logs and alerts
+
+That correspond to several tools:
+
+* Sniffers: collects packets (eg dumpcap)
+* Protocol analysers: packet-centric and/or session-centric capabilities (eg tcpdump, wireshark)
+* network forensics analysis tools: data-centric analysis (eg NetworkMiner)
+
+There also exists some specialised tools: mailsnarf to extract emails, ssl_dump to extract ssl infos, etc.
+
+And some tools centered on programmable analysis, like libpcap, bro, or scapy.
+
+Note that encrypted communication is the trend, so often the only things left to analyse are traffic volumes and timing.
+
+
+
+### Data collection
+
+#### Device
+
+Taps are passive devices that duplicates all traffic and forward it to the monitoring port.
+
+The monitoring device should make sure it sends no packets.
+
+dumpcap is a libpcap-based tool for reading packets from a live network and saving them on disk. Uses the widely-used BPF syntax for packet filtering.
+
+#### Format
+
+The pcap format is the standard for packet captures. Format: `[main header] [[packet header] [packet]]*`. pcap-ng is its evolution, allowing for a support of multiple interfaces, comments, metadata, etc.
+
+NetFlow summarizes IP traffic through sampling and summarization of packets. A flow is a sequence of packets that shares the same:
+
+* IP src, IP dst
+* port src, port dst
+* IP protocol
+* ingress interface
+
+Note that a TCP connection is made up by 2 flows.
+
+
+
+### Data analysis
+
+capinfo is a tool for quickly getting infos on pcap files.
+
+editcap is a useful tool for editing pcap files based on time windows truncation, packet index, etc.
+
+wireshark is... well everyone knows what wireshark is. tshark is its command line interface - useful for tools combination.
+
+Reverse DNS for resolving IP resolutions can be used, but a more reliable techiques is to track DNS queries.
+
+Geolocation is useful but even if there exists many free tools on the net, there exists very few free IP geolocation databases or softwares.
+
+OS fingerprinting is the process of determining which OS is running on a target system based on the network traffic it generates. Can also be used to detect multiple machines behind a NAT. OS respond differently to ICMP, TCP and DHCP, and have differet browser user agents. Can be easily fooled, although it is not likely to happen.
+
+Several programmable libraries can be used for more control:
+
+* libpcap - individual packets handle (C)
+* pcapplusplus - individual packets handle (C++)
+* scapy - individual packets handle (python)
+* libnids - TCP sessions, emulates the IP stack (C)
+* pynids - TCP sessions, emulates the IP stack (python)
+* Bro - intrusion detection and complex realtime network analysis (custom language)
+
+### Malwares and network
+
+Three signs to look for:
+
+* propagation
+* malware behavior (eg: home probe report)
+* malicious activity (eg: DoS)
+
+#### Propagation
+
+Drive-by download: infected website → redirect or load a malicious iframe or script. The landing page profiles the browser, choses the correct flaw to exploit, and installs the malware. Detection: signature of malicious iframes/scripts, blacklist of landing pages, malware detection.
+
+Watering hole attack: company C orders pizzas at website W. Attacker A infects W so as to be able to do some further attack on C.
+
+#### Botnets
+
+A key component of a botnet is the C&C (command and control protocol). Not actually a protocol, but rather a framework of communication to enable the slave-master communication.
+
+1. malicious server in plain sight (fail: arrest the malicious server)
+2. malicious server in plain sight in a country with favorable laws (fail: firewall-out the server)
+3. single flux: many IPs are registered then unregistered at a high frequence
+4. double flux: single flux + rotates the authoritative server
+5. domain flux: changing the domain name an infected machine connects to
+
+#### Analysis
+
+1. Check for known bad
+    * blacklisted IPs or domains
+    * extract all the transmitted file and malware-analyse them (fast method: MD5 on virustotal)
+2. Check for anomalies
+    * protocols on non-standards ports
+    * IRC traffic
+    * hardcoded IPs
+    * spoofed and injected packets
+3. Check the DNS traffic
+    * DNS errors
+    * anomalous TTL
+    * dynamic DNS
+4. Check the HTTP traffic
+    * Redirects (too many of them)
+    * User agents: sometimes still set to empty, perl or python
+    * File extensions
+    * HTTP on 443 (HTTPS rollback attach to HTTP)
+    * Alexa top 1 million websites
+5. Certificate
+    * Self-signed
+    * blacklisted
+
+[PCAP dissector](https://github.com/eaam/Bro-PCAP-Dissector) automatize most of this.
