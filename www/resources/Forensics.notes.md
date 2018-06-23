@@ -12,9 +12,9 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [dynamic analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/dynamic_analysis_part_b.pdf) | done |
 | [computer forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/forensics_intro_wide.pdf) | done |
 | [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | done |
-| [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | to do |
-| [network forensics B](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/network_forensics.pdf) | to do |
-| [disk and filesystem forensics](...) | to do |
+| [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | done |
+| [network forensics B](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/network_forensics.pdf) | done |
+| [disk and filesystem forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/disk_forensics.pdf) | to do |
 | [forensics techniques](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/basic_techniques.pdf) | to do |
 | [logical reasonning A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_1.pdf) | to do |
 | [logical reasonning B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_2.pdf) | to do |
@@ -627,3 +627,62 @@ A key component of a botnet is the C&C (command and control protocol). Not actua
     * blacklisted
 
 [PCAP dissector](https://github.com/eaam/Bro-PCAP-Dissector) automatize most of this.
+
+
+
+## Disk forensics
+
+`disk/drives -> volumes + partitions -> filesystem -> files`
+
+### Disks and flahs drives
+
+Actually several disks. Smallest addressable unit = **sector**. The physical address - sector number mapping is done by the disk controller. Disks can have hidden areas (not accessible to the OS), like the reserved service area.
+
+Flash drives have the same interface as disks but work completely differently. Reading is easy but writing is hard because resetting transistors is hard, thus properly removing data from a flash drive is cumbersome.
+
+During the acquisition phase, it is necessary to connect the disk to a write blocker.
+
+Linux' `dd` command can help perform a simple logical copy of devices: `dd if=/dev/sda of=disk.raw`. Note that dd wass not designed with forensics in mind, but forks/patches exists that do.
+
+`xmount` and similar tools allows users to boot from a disk image.
+
+### Partitions and volumes
+
+Disks are normally organized in **partitions**. **Volumes** are disk areas presented to the OS with a given file system. Under a letter in windows, managed by `mount` in Linux. Partitions can exist without a volume, volumes can exist without partitions, several volumes can be found under one partition.
+
+### File systems
+
+FS manipulates directories, files, and metadata (user-friendly). Often associated with an OS. Data is stored in allocation units called **blocks**. Files and free space gets block-fragmented.
+
+FS forensics is useful because the FS doesn't cover the whole space available to the OS - and it can be used to hide data, or recover deleted files.
+
+Deleted files:
+
+* **deleted**: on disk: [metadata → data], but the file has been unlinked from the directory
+* **orphaned**: on disk: [metadata, data], the metadata doesn't point to the data anymore
+* **unallocated**: on disk: [data], content not yet overwriten
+* **overwritten**: partial recovery can be made
+
+Each block has an inode map (bitmap of free inodes in the block), unlinking a file comes down to setting to 0 the number of hard links in the file descriptor, and marking the area as free.
+
+Moreover, using a magnetic force microscope, it's possible to read the previous bit value.
+
+On SDD, "overwriting" a zone actually overwrites a zone somewhere else in memory, so it's pretty hard to actually overwrite data.
+
+In NTFS, when deleting a file, its entry in the MFT is marked accordingly, and all of its clusters are marked as free. Neither the metada neither the cluster pointers get deleted.
+
+Disk encryption: the encryption is only as secure as the key secretion, possible issues:
+
+* cold boot attacks
+* get the user reveal-his-key-to-strangers drunk
+* keyloggers
+
+Some people doing suspicious activities mind find handy that there exists tools that makes it impossible to even prove that some encrypted data exists on a disk.
+
+### Malwares
+
+Remember that only the firmware of the disk can access the reserved service area. Some people had the idea of infecting the firmware and hiding viruses in it.
+
+**Bootkits** interfere with the boot process before the OS taks control, infecting the OS by loading malicious unsigned kernel modules.
+
+Malware can hide their code in hidden files.
