@@ -10,8 +10,8 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [reverse engineering tools](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/reveng_tools.pdf) | ignored |
 | [dynamic analysis A](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/malware_analysis_sandboxes.pdf) | done |
 | [dynamic analysis B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/dynamic_analysis_part_b.pdf) | done |
-| [computer forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/forensics_intro_wide.pdf) | to do |
-| [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | to do |
+| [computer forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/forensics_intro_wide.pdf) | done |
+| [memory forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/memory_forensics.pdf) | done |
 | [network forensics A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/network_forensics_first_half.pdf) | to do |
 | [network forensics B](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/network_forensics.pdf) | to do |
 | [disk and filesystem forensics](...) | to do |
@@ -450,4 +450,56 @@ IR (incident response) goals:
 1. Handle: identify, stop, contain the incident
 2. Recover: remove, repair, restore the victim's system
 3. Investigate: collect evidence, deduce the cause and the extent
+4. Prevent
 
+
+
+## Memory forensics
+
+1. Acquisition of a memory snapshot
+2. Locating known data structures
+3. Carving de-allocated data structures
+
+Available infos:
+
+* rootkit
+* open sockets, active connections
+* clipboard
+* caches
+* processes
+
+The memory acquisition problem: software-based methods are altering the system. Hardware-based methods are expensive and complex, plus the IOMMU sometimes prevent the access to the whole memory.
+
+In cold boot attacks, the memory is physically frozen so as to be preserved. Boot from USB allows to manipulate the memory.
+
+### Structures
+
+Known kernel structures can help identify the data, but windows source code is not always available for documentation, and linux users can modify their kernel.
+
+#### Processes
+
+In windows, each process is identified by an executive process block (EPROCESS). All the EPROCESSes are connected in a double-linked list. Processes can be hidden by removing themselves from the list.
+
+#### Memory
+
+Memory analysis requires the ability to translate virtual addresses (used by programs) into physical ones (in the dump). Memory is divided into pages (@memory) or frames (@disk after a swap) of 4096 bytes each.
+
+The virtual memory system stores such a mapping in the **page table** as **page table entries (PTEs)**.
+
+#### Volatility (tool)
+
+Memory analysis framework written in Python. Supports all the big OSs. Collection of tools implemented as plugins (python scripts that are installed simply by copying them in the plugins directory). 50 profiles, 265 plugins. Allows for:
+
+* Image identification
+* Process listing
+* Lists the DLLs loaded by a process
+* List open networks connections
+* etc etc etc
+
+#### Memory analysis
+
+Often starts by investigating one process after another. Note that most malwares hides themselves by:
+
+* removing themselves from process lists → do a process scan, not a process listing
+* renaming themselves into system processes → do a dlllist to find where the process comes from
+* inject their whole code into the dll of a legitimate process
