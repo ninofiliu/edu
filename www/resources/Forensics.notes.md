@@ -18,6 +18,7 @@ Notes by Nino Filiu; based on the Forensics course by David Balzarotti.
 | [forensics techniques](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/basic_techniques.pdf) | done |
 | [logical reasonning A](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_1.pdf) | ignored |
 | [logical reasonning B](https://my.eurecom.fr/upload/docs/application/pdf/2018-05/logical_reasoning_2.pdf) | ignored |
+| [OS and app forensics](https://my.eurecom.fr/upload/docs/application/pdf/2018-06/os_apps_forensics.pdf) | to do |
 
 ## Binary and malware analysis
 
@@ -275,10 +276,6 @@ There also exists several types of unpacking techniques:
 * **Automatic + dynamic**: euristics to detect the OEP. Works well for simple packers
 * **Manual + static**: requires a reversing of the stub
 * **Manual + dynamic**: use a debugger to manually id the OEP
-
-## Reverse engineering tools
-
-Putting this part into notes seems useless - here are [the original slides](https://my.eurecom.fr/upload/docs/application/pdf/2018-04/reveng_tools.pdf)
 
 ## Dynamic analysis
 
@@ -737,3 +734,62 @@ Carving files gets efficient by carving its heading and footer, but ther might b
 Blocks with high entropy are likely unique. The existence of such a block (hash-identified) on a disk is likely to reveal the presence of the file the unique block comes from.
 
 Note that carving can also extract useless informations: for example there exists 20K email addresses on a *clean* fedora distribution. Tools like `bulk_extractor` support list of known features to filter out.
+
+
+
+## OS and application forensics
+
+### OS-independent
+
+#### Files
+
+File type determine the structure of the data but it is stored nowhere: windows encode it in the extension, but it can be changed; Linux considers everything as a text file but infos can be stored in the header or footer, but it can be fooled too. The only thing left is to look at the content - still a forensics research topic.
+
+Some format don't care if data is appened at the end of their file: that's the case of jpg, zip, elf and mp3. The first file can be used normally and a file can be invisibly appened.
+
+#### Metadata
+
+Often more important that the data itself.
+
+`extract` is a general tool for getting metadata but ad-hoc specific tools perform better: `exiv2` for images, `pdfinfo` for pdf...
+
+Time analysis is useful to understand what event happened. Super-timelines are object that contain even more infos than the filesystem can provide. They have to go through data reduction and anomalies detection processes.
+
+#### Web browsers
+
+Chromes uses sqlite3 databases to store most infos (TL;DR sqlite3 allows for databases in a single file). Deleted rows remain in the file untill they are overwritten... Cookies also might store further infos that can't be found on disk.
+
+Chrome is the most used browser (50% and growing, Firefox and Safari are both below 15%).
+
+
+
+### Linux
+
+Most logs are in plaintext so it's cool.
+
+Often installed on ext4 filesystem, so it may be hard to recover deleted files.
+
+/etc contains the configuration files of applications (plain text). Some are predictable:
+
+* computer name: `/etc/hostname`
+* release: `/etc/*-release`
+* account infos: `/etc/passwd`
+* passwords and hashes: `/etc/shadow`
+
+`~/.ssh/config` and `~/.ssh/known_hosts` contain ssh infos like the list of hashes of hosts the user connected to. Shell history in `~/.bash_history` (caution: can be freely edited).
+
+There's a lot of infos in the logs, which have only a definite structure for the time, hostname and process.
+
+
+
+### Windows
+
+Windows **registry** is a hierarchical DB that contains infos about users, settings, apps, devices, and events. Organised in **hives**, that are themselves organised in **cells**. Fred is a registry hive viewer. Rip is a perl program that can also perform the fetch of useful infos like:
+
+* Malwares heavily rely on automatic launch upon boot. The **autostart locations** can help identify them.
+* Footprints of external device connections.
+* In the NTUSER hive, all the applications used by a user are logged with a counter. ROT13 encryption!
+
+LNK exists for opened files and help do stuff like build the "recently opened" view. Shellbags are used to store the user's preferences to display directories, created upon directory navigation.
+
+Binary log of events, more or less the same system as in windows.
