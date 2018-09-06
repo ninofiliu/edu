@@ -1,0 +1,7 @@
+The game is simple. This directory contains four programs.
+Each of them prints "Congratulations" if run with the right parameters.
+Your goal is to find such parameters. For instance, if newbie prints
+"Congratulations" when executed with:
+ ./newbie ABCD
+Then the solution of that binary (and the key to decrypt the next one) is ABCD
+

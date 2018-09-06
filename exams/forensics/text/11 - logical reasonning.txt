@@ -1,0 +1,360 @@
+Logical Reasoning
+
+Davide Balzarotti
+davide@iseclab.org
+
+"Excellent!" I cried.
+"Elementary" said he.
+It is one of those instances where the reasoner can produce an
+efect which seems remarkable to his neighbor, because the latter
+has missed the one little point which is the basis of the deduction
+– Dialog between Sherlock Holmes and Watson
+
+Three Ways of Reasoning
+
+
+Given:
+1. A series of fact known as pre-conditions or premises
+2. A fact known as conclusion
+3. A rule that link the two together, such that the pre-conditions implies the
+conclusion
+
+Three Ways of Reasoning
+
+
+Given:
+1. A series of fact known as pre-conditions or premises
+2. A fact known as conclusion
+3. A rule that link the two together, such that the pre-conditions implies the
+conclusion
+
+
+
+We can identify three ways of reasoning
+
+
+Deduction – determining the conclusion given the premises
+
+
+
+Induction – learning the rule given premises and conclusions
+
+
+
+Abduction – suggest the pre-conditions given the conclusions
+
+The General Schema
+What You Know
+
+Deduction
+
+A→B
+
+What You Observe
+
+A
+
+Conclusion
+
+The General Schema
+What You Know
+
+Deduction
+
+A→B
+
+What You Observe
+
+A
+
+Conclusion
+
+B
+(certain)
+
+The General Schema
+What You Know
+
+Deduction
+
+A→B
+
+What You Observe
+
+A
+
+Conclusion
+
+B
+(certain)
+
+Induction
+
+A…B
+A…B
+A…B
+A
+
+The General Schema
+What You Know
+
+Deduction
+
+A→B
+
+What You Observe
+
+A
+
+Conclusion
+
+B
+(certain)
+
+Induction
+
+A…B
+A…B
+A…B
+A
+
+A→B
+B
+(probable)
+
+The General Schema
+What You Know
+
+Deduction
+
+A→B
+
+What You Observe
+
+A
+
+Conclusion
+
+B
+(certain)
+
+A…B
+A…B
+A…B
+A
+
+Induction
+
+Abduction
+
+A→B
+
+B
+
+A→B
+B
+(probable)
+
+The General Schema
+What You Know
+
+Deduction
+
+A→B
+
+What You Observe
+
+A
+
+Conclusion
+
+B
+(certain)
+
+A…B
+A…B
+A…B
+A
+
+Induction
+
+Abduction
+
+A→B
+
+B
+
+A→B
+B
+(probable)
+A
+(hypothesis)
+
+Deduction
+
+
+Normally associated with Mathematical Reasoning
+
+
+
+The truth of the conclusion is a logical consequence of the premises
+
+
+
+
+If the argument is valid and the premises are true,
+the conclusion must be true as well
+Unfortunately, in real life, it is hard to have absolute rules and fact
+When it rains, the grass gets wet
+Today it rained
+Therefore the grass must be wet
+
+Induction
+
+
+
+
+Normally associated to Scientific Reasoning
+Try to determine the relationship between facts by observing multiple
+examples of premises followed by the same conclusion
+
+
+Make generalization based on single instances
+
+
+
+How many observations do you need to achieve reasonable certainty?
+
+
+
+An inductive argument is never true or false, but it can be strong or weak
+Every times it rains, the grass always gets wet
+Therefore, if it rains, the grass will get wet
+
+Abduction
+
+
+Normally associated to medical or Detective Reasoning
+
+
+
+The process of formulating hypothesis to explain a given observation
+
+
+
+
+There could be other possible explanations as well,
+so the idea is to find the best possible one
+How can you choose the “best” explanation?
+
+When it rains, the grass gets wet
+The grass is now wet, therefore it *might* have rained
+
+Occam's Razor
+“Entities should not be multiplied unnecessarily”
+
+
+The best possible explanation is often defined in terms of simplicity,
+economy, succinctness, and elegance
+
+
+Between many possible hypotheses (all with the same explanatory power),
+choose the one that is more simple and require less assumptions
+
+Putting Everything Together
+[Induction] Transforming observations into knowledge
+
+
+From multiple events, extract recurring patterns
+
+[Abduction] Forming the Hypothesis
+
+
+From an observation, think about the most likely explanations
+
+[Deduction] Using the hypothesis to deduce other events
+
+
+By verifying the predictions it is possible to rule out bad hypothesis
+
+Conclusions can be supported by observations but they can be rarely “proved”
+
+Example
+A …. B
+A …. B
+A …. B
+B
+
+A→C
+
+Example
+A …. B
+A …. B
+A …. B
+
+B
+
+A→C
+
+A→B
+
+Induction
+
+Example
+A …. B
+A …. B
+A …. B
+
+A→B
+
+Induction
+
+B
+
+A
+
+Abduction
+
+A→C
+
+Example
+A …. B
+A …. B
+A …. B
+
+A→B
+
+Induction
+
+B
+
+A
+
+Abduction
+
+A→C
+
+C ??
+
+Hypothesis
+verification by
+Deduction
+
+Example
+Analysis
+
+A→B
+
+B
+
+A→C
+
+A
+
+C ??
+
+Hipothesis
+
+Verification
+
+

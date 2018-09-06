@@ -1,0 +1,530 @@
+0111011101100101
+0110110001101100
+0100000001100100
+0110111101101110
+0110010101000001
+
+Reverse Engineering
+(tools)
+
+Davide Balzarotti
+davide.balzarotti@eurecom.fr
+
+✔ Assembly 101
+✔ Disassembly algorithms
+→ Linear sweep and recursive
+→ Detecting function prologues
+
+✔ Decompilation
+✔ Language Constructs
+✔
+
+Assembly and C
+
+✔
+
+Assembly and C++
+
+✔ Limits of Static Analysis
+✔ General limitations
+✔ Anti-disassembly
+✔ Packing
+
+Ida Pro
+
+Hopper
+
+Binary Ninja
+
+Radare 2
+
+IDA Pro
+
+IDA
+
+
+
+
+The Interactive Disassembler (IDA) Pro is the best available tool
+for analyzing program binaries. It provides:
+
+
+an interactive, programmable, extensible, multi-processor, recursive traversal disassembler
+
+
+
+a graphical interface with several code visualization tools
+
+
+
+support for more than 60 families of processors and more than 30 file types
+
+Commercial application
+
+
+One seat license costs 529 / 1019E (and you need to choose one OS)
+
+
+
+Version 7.0 (with limited features) is free for non-commercial use
+
+
+
+Evaluation version: only PE & ELF on X86 and ARM
+(you cannot save your work and it will time out after some use)
+
+IDA Database
+
+
+After IDA opens a file and performs its analysis, it saves all the information in a
+custom database, stored in four binary files
+
+
+program.id0 – the b-tree style database
+program.id1 – flags for each program byte
+program.nam – info for IDA name window
+program.til – type definition
+
+
+
+By default, the files are compressed and stored in a single .idb file when you quit the program
+
+
+
+After the database is created, the original binary is useless
+
+RULE #1: Everything you see and you do, you are working on the database.
+Changes are NOT automatically reflected to the binary
+
+IDA Analysis
+
+
+Step I: Loader
+
+
+
+
+
+
+Step II: Recursive disassembler
+
+
+A processor module is used to interpret each instruction
+
+
+
+A number of heuristics are applied to increase coverage
+
+Step III: Arguments and variable identification
+
+
+
+
+Parse the file and load the required sections at the right virtual address
+
+IDA tracks the value of the ESP register inside each function, to properly locate and
+rename each access to local variables and parameters
+
+Step IV: Datatype analysis
+
+
+Based on the knowledge of the parameters of common library calls, IDA adds comments
+to the code containing the parameter name
+
+Names & References
+
+
+
+
+IDA automatically generates a lot of symbolic names
+
+
+sub_xxxx – a function at address xxxx
+
+
+
+loc_xxxx – an instruction at address xxxx
+
+
+
+byte_ word_ dword_xxxx – data at address xxxx
+
+
+
+var_xx – local variable at offset EBP-xx
+
+
+
+arg_n – function argument at offset EBP+8+n
+
+IDA also keeps track of all code and data references
+
+
+Code xrefs model the fact that an instruction is the target of a jmp or call
+
+
+
+Data xrefs models the fact that a byte is read, written, or referenced by another instruction
+
+Make no mistakes
+RULE #2: There are plenty of things you can do.
+But there is no way to “undo” an operation.
+
+
+
+
+One change can trigger many other ones behind the scene
+
+
+From (most of the) changes, it is possible to *manually* change things back
+
+
+
+But it can be a painful and long job
+
+The undo feature will not be implemented in the near future :(
+
+
+But starting from version 6.2, it is possible to save and restore hierarchical snapshots
+of the database
+
+Demo
+
+Scripting IDA
+
+
+Two Options:
+IDC scripting language (syntax similar to C) or Python
+
+import idc, idaapi, re
+from idautils import *
+def find_functions_headers(start,end):
+data = idc.GetManyBytes(start,end-start)
+if not data:
+return []
+return [m.start()+start for m in
+re.finditer("\x55\x89\xe5\x83\xec", data)]
+for s in Segments():
+for p in find_functions_headers(SegStart(s), SegEnd(s)):
+if p not in Functions(SegStart(s), SegEnd(s)) :
+print ">> POSSIBLE Undetected Function at 0x%x <<"%p
+
+IDA from the Command Line
+
+
+$ idaq -B file
+
+
+
+
+Run the default analysis and create a text file with the entire disassembly
+
+$ idaq -A -c -S"script_full_path" file
+
+
+
+
+Run a given script on the target file
+Scripts cannot print to the standard output, so the messages need to be
+redirected to a file
+
+Radare2
+
+Radare
+
+
+Command-line, VIM-like binary analysis framework
+
+
+
+Free and open source (always install from GIT )
+
+
+
+Suite of tools:
+
+
+
+
+
+
+
+radare2
+r2pm
+rarun2
+ragg2
+rabin2
+radiff2
+
+
+
+
+
+
+
+
+rax2
+rahash2
+rasm2
+rafind2
+r2agent
+rasign2
+
+Radare
+
+
+Command-line, VIM-like binary analysis framework
+
+
+
+Free and open source (always install from GIT )
+
+
+
+Suite of tools:
+
+
+
+radare2
+r2pm
+
+
+
+rarun2
+
+
+
+ragg2
+
+
+
+rabin2
+
+
+
+radiff2
+
+rax2
+rahash2
+
+rasm2
+
+rafind2
+
+r2agent
+
+Support
+for binary format
+rasign2
+
+> rabin2 -L
+
+
+Radare
+
+
+Command-line, sort of VIM-like binary analysis framework
+
+
+
+Free and open source (always install from GIT )
+
+
+
+Suite of tools:
+
+
+
+
+
+
+radare2
+r2pm
+rarun2
+ragg2
+rabin2
+
+radiff2
+Disassembler and binary analyzer
+> rasm2 -L
+
+
+
+
+
+
+
+
+
+
+
+rax2
+rahash2
+rasm2
+rafind2
+r2agent
+rasign2
+
+Radare2
+
+
+Command-line, sort of VIM-like binary analysis framework
+
+
+Commands are sequences of characters, in which each one as a special meaning
+
+
+
+A question mark after a command prints a short help message
+
+p
+
+// [p]rint command group (alone does not do anything)
+
+p?
+
+// [p]rint the list of commands in the print group
+
+pd
+
+// [p]rint [d]isassemby
+
+pd? // [p]rint the list of commands in the print disassembly group
+pdf // [p]rint [d]isassemby [f]unctions
+
+Radare2
+
+
+
+
+
+
+You can use pipes and redirect
+afl > /tmp/flist
+
+// write the list of functions to a file
+
+afl | grep "foo"
+
+// grep over the functions list
+
+afl ~ foo
+
+// same as above, but using the
+embedded grep (for portability)
+
+The learning curve is steep
+
+
+There are tons of commands, and new important commits almost every day
+
+
+
+Several commands may not work (or not as expected)
+
+It supports many possible ways to visualize the data
+(visual mode, graph mode, web interface, ...)
+
+Visual Mode
+
+Graph Mode
+
+Demo
+
+Ida Pro
+
+Hopper
+
+Binary Ninja
+
+Radare 2
+
+Ida Pro
+
+Binary Ninja
+
++ De-facto standard & still the best
++ Best decompiler
++ Free version
+- Full version very expensive
+Hopper
+
+Radare 2
+
+Ida Pro
+
+Binary Ninja
+
++ De-facto standard & still the best
+
++ Personal license 149$
+
++ Best decompiler
+
++ Great usability
+
++ Free version
+
+- No debugging support
+
+- Full version very expensive
+Hopper
+
+Radare 2
+
+Ida Pro
+
+Binary Ninja
+
++ De-facto standard & still the best
+
++ Personal license 149$
+
++ Best decompiler
+
++ Great usability
+
++ Free version
+
+- No debugging support
+
+- Full version very expensive
+Hopper
+
++ Affordable (99Euro) decompiler
+- CFG non-interactive view
+
+Radare 2
+
+Ida Pro
+
+Binary Ninja
+
++ De-facto standard & still the best
+
++ Personal license 149$
+
++ Best decompiler
+
++ Great usability
+
++ Free version
+
+- No debugging support
+
+- Full version very expensive
+Hopper
+
+Radare 2
+
++ Affordable (99Euro) decompiler
+
++ Free and open source
+
+- CFG non-interactive view
+
++ 1000 functions...
+- ..100 of which do not work
+- Still cant find an efficient workflow
+
+
