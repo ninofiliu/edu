@@ -1,0 +1,30 @@
+courses abbreviations
+    csc computational social choice
+    im  internet measurement
+    ss  software security
+    qc  quantum computing
+
+resources
+    csc
+        ./csc/scf.md    properties of SCFs
+        (on paper)      SCF/SWF desirable property definitions
+        (on paper)      crash course
+    im
+    qc
+    ss
+        ./ss/*.md       crash notes, arranged by concepts
+
+notes progress
+    csc
+        [x] chapter 1
+        [x] chapter 2
+        [x] chapter 3
+        [ ] chapter 4
+    im
+        [ ] ???
+    qc
+        [ ] ???
+    ss
+        [x] SBBO 1
+        [x] SBBO 2
+        [ ] protection 1
