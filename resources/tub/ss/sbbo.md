@@ -9,3 +9,9 @@ A usual entry point for SBBO is `strcpy(char* dest, const char* src)` which copi
 Overflow a buffer with `nop-slide:shellcode:address`. The address points to the middle of the nopsled. The shellcode is isually `execve("/bin/sh", {"/bin/sh"}, NULL)` so that a shell is spawned and easy further exploitation can be done, but it can be anything.
 
 The string must not contain any null bytes. Assembly-level tricks can be used, eg replacing `mov 0 rax` by `xor rax rax`, or division by 256 instead of trailing NULL.
+
+Prevention mechanisms:
+
+- [Stack canaries](./stack-canaries.md)
+- [NX aka Data Execution Prevention](./nx.md)
+- [ASLR](./aslr.md)

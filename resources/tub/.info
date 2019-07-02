@@ -27,4 +27,15 @@ notes progress
     ss
         [x] SBBO 1
         [x] SBBO 2
-        [ ] protection 1
+        [x] protection 1
+        [x] protection 2
+        [x] ROP
+        [x] Static analysis
+        [x] Fuzzing
+        [x] Heap attacks
+        [ ] Side channel attacks
+
+to do
+    ss
+        [ ] shellcode program
+        [ ] format string program
