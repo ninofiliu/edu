@@ -1,8 +1,9 @@
 courses abbreviations
-    csc computational social choice
-    im  internet measurement
-    ss  software security
-    qc  quantum computing
+    csc     computational social choice
+    im      internet measurement
+    qc      quantum computing
+    spis    security and privacy of information systems
+    ss      software security
 
 resources
     csc
@@ -11,6 +12,8 @@ resources
         (on paper)      crash course
     im
     qc
+    spis
+        (on paper)      cheatsheet
     ss
         ./ss/*.md       crash notes, arranged by concepts
 
@@ -24,6 +27,8 @@ notes progress
         [ ] ???
     qc
         [ ] ???
+    spis
+        [ ] 0/8 
     ss
         [x] SBBO 1
         [x] SBBO 2
@@ -34,8 +39,3 @@ notes progress
         [x] Fuzzing
         [x] Heap attacks
         [ ] Side channel attacks
-
-to do
-    ss
-        [ ] shellcode program
-        [ ] format string program
